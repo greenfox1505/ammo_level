@@ -81,6 +81,10 @@ module.exports = function(interfaces,rawLevel){
         // myMesh.quaternion.copy( body.getQuaternion() );
     }
 
+    for(var i in level.objs){
+        scene.add(level.objs[i]);
+    }
+
     console.log(level);
     return level;
 }

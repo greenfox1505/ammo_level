@@ -6,9 +6,7 @@ var scene = threeData[0];var camera = threeData[1];var renderer = threeData[2]
 
 var level = require("./levelLoader.js")({scene:scene},require("./level1.js"));
 
-for(var i in level.objs){
-    scene.add(level.objs[i]);
-}
+
 
 camera.position.z = 5;
 camera.position.y = 5;
