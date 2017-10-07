@@ -9,7 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "ammo.js": "github:kripken/ammo.js",
     "three": "^0.87.1"
   }
 }

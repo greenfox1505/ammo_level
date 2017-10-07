@@ -1,1 +1,1 @@
-watchify src/main.js -o "./bin.js" -v -b
+watchify src/main.js -o "./bin.js" -v $@

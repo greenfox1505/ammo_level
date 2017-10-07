@@ -1,23 +1,31 @@
 //a pure-data level. to be processed later!
 
 module.exports = { 
+    world:{
+        grav:[0,-10,0]
+    },
     geos:{//cube and sphere gemoties are supports for MVP
-        cubeGeo:["cube",1,1,1],
-        floorGeo:["cube",10,1,10],
-        ballGeo:["sphere",1,32,32],
+        cubeGeo:    ["cube",1,1,1],
+        floorGeo:   ["cube",10,1,10],
+        ballGeo:    ["sphere",1,32,32],
     },
     mats:{//[COLOR,WEIGHT] todo, more complex physics and material properties
-        red:    ["basic",0xFF0000,0],
-        green:  ["basic",0x00FF00,1],
-        blue:   ["basic",0x0000FF,1]
+        floorColor: ["basic",0x261D1D,[0,0.2,0.2]],
+        box0:       ["basic",0xF49393,[1,0.2,0.2]],
+        box1:       ["basic",0xF21368,[1,0.2,0.2]],
+        box2:       ["basic",0xAA236D,[1,0.2,0.2]],
     },
     objs:{//todo add all kinds of new properties, 
-        floor:["floorGeo","red",[0,0,0]]
+        floor:  ["floorGeo","floorColor",[0,0,0],[0,0,0]],
+    },
+    lights:{
+        global: ["amb",0xffe3d3,0.25]
     }
 }
 
-
 for(var i = 1; i < 10; i++){
-    var box = ["cubeGeo",["green","blue"][i%2],[0,i,0]]
+    var box = ["cubeGeo","box"+i%3,[0,i,0],[1/64,i/32,0]]
     module.exports.objs["box" + i] = box;
 }
+
+console.log(module.exports);
