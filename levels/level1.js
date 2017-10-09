@@ -1,13 +1,16 @@
 //a pure-data level. to be processed later!
 
+if(!module){var module = {}}
 module.exports = { 
     world:{
-        grav:[0,-10,0]
+        grav:[0,-10,0],
+        background:0xFF00FF,
+        camera:[5,5,5]
+        
     },
     geos:{//cube and sphere gemoties are supports for MVP
         cubeGeo:    ["cube",1,1,1],
         floorGeo:   ["cube",10,1,10],
-        ballGeo:    ["sphere",1,32,32],
     },
     mats:{//[COLOR,WEIGHT] todo, more complex physics and material properties
         floorColor: ["basic",0x261D1D,[0,0.2,0.2]],
@@ -20,6 +23,10 @@ module.exports = {
     },
     lights:{
         global: ["amb",0xffe3d3,0.25]
+    },
+    player:{
+        position:[5,5,5],
+        rotation:""
     }
 }
 
@@ -28,4 +35,4 @@ for(var i = 1; i < 10; i++){
     module.exports.objs["box" + i] = box;
 }
 
-console.log(module.exports);
+window.sideLoadLevel(module.exports)

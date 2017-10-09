@@ -6,6 +6,8 @@ var MatBuilder = require("./MatBuilder.js")
 
 module.exports = function(interfaces,rawLevel){
     var scene = interfaces.scene;
+    var renderer = interfaces.renderer;
+    if(rawLevel.world.background) {renderer = renderer.setClearColor( rawLevel.world.background, 1 );}
 
     var world = interfaces.world = new OIMO.World({ 
         timestep: 1/60, //probably needs to become dynamic for framerate reasons
