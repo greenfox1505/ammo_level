@@ -3,6 +3,7 @@
 * Geometries{}
 	* *GeoName*[]
 		* shape
+		* camera
 		* dimentions
 * Materials{}
 	* *MatName*[]

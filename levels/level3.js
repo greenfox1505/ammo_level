@@ -29,16 +29,9 @@ var level = module.exports = {
     },
 }
 
-var radius = 1.5;
-var TU = Math.PI * 2
-for(var i = 0 ; i < 64 ;i++){
-    var layerAOffSet = (((i/8)|0)%4)*(1/16)
-    var angle = i/8 + layerAOffSet
-    var x = Math.sin(TU*angle)*radius
-    var z = Math.cos(TU*angle)*radius
-    var brick = ["brick","box"+(i%4),[x,.75+((i/8|0)*0.5),z],[0,angle,0]]
-    console.log("box"+(i%3))
-    level.objs["brick"+i] = brick;
-}
+var i = 0;
+var brick = ["brick","box1",[0,.75,0],[0,0,0]]
+level.objs["brick"+i] = brick;
+
 
 sideLoadLevel(module.exports)
