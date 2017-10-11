@@ -37,16 +37,14 @@ module.exports = function(interfaces,rawLevel){
         var mat = level.mats[rawLevel.objs[i][1]]
         //todo physics stuffs!
         var obj = level.objs[i] = new THREE.Mesh(geo[0],mat[0]);
-        if(rawLevel.objs[i][2]){//positions
-            obj.position.x = rawLevel.objs[i][2][0]
-            obj.position.y = rawLevel.objs[i][2][1]
-            obj.position.z = rawLevel.objs[i][2][2]
-        }
-        if(rawLevel.objs[i][3]){//rotations,radians
-            obj.rotation.x = rawLevel.objs[i][3][0]*Math.PI*2
-            obj.rotation.y = rawLevel.objs[i][3][1]*Math.PI*2*360
-            obj.rotation.z = rawLevel.objs[i][3][2]*Math.PI*2
-        }
+
+		obj.position.x = rawLevel.objs[i][2][0]
+		obj.position.y = rawLevel.objs[i][2][1]
+		obj.position.z = rawLevel.objs[i][2][2]
+		obj.rotation.x = rawLevel.objs[i][3][0]*Math.PI*2
+		obj.rotation.y = rawLevel.objs[i][3][1]*Math.PI*2
+		obj.rotation.z = rawLevel.objs[i][3][2]*Math.PI*2
+
         console.log(geo[1],mat[1]);
         obj.phys = world.add({
             type:geo[1].type, // type of shape : sphere, box, cylinder 

@@ -22,7 +22,7 @@ window.sideLoadLevel = function(rawLevel){
     camera.position.x = rawLevel.world.camera[2];
     camera.lookAt(new THREE.Vector3( 0, 0, 0 ))
     var animate = function () {
-        //level.physicsTick(1/60);
+        level.physicsTick(1/60);
         renderer.render(scene, camera);
         requestAnimationFrame( animate );
     };

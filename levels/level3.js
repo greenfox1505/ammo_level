@@ -2,6 +2,7 @@
 
 var brickRis = 0.0001
 var brickFric = 0.3
+var y = 0.5
 if(!module){var module = {}}
 var level = module.exports = { 
     world:{
@@ -10,7 +11,7 @@ var level = module.exports = {
         camera:[10,10,10]
     },
     geos:{//cube and sphere gemoties are supports for MVP
-        brick:      ["cube",1,0.5,0.5],
+        brick:      ["cube",1,y,0.5],
         floorGeo:   ["cube",20,1,20],
         ballGeo:    ["sphere",1,32,32],
     },
@@ -24,14 +25,19 @@ var level = module.exports = {
     },
     objs:{//todo add all kinds of new properties, 
         floor:  ["floorGeo","floorColor",[0,0,0],[0,0,0]],
-        floor2: ["floorGeo","floorColor",[-15,5,0],[0,0,7/8]],
-        ball:   ["ballGeo","ballColor",[-15,10,0],[0,0,0]],
+        floor2: ["floorGeo","floorColor",[15,5,0],[0,0,-7/8]],
+        ball:   ["ballGeo","ballColor",[15,10,0],[0,0,0]],
     },
 }
 
-var i = 0;
-var brick = ["brick","box1",[0,.75,0],[0,0,0]]
-level.objs["brick"+i] = brick;
-
+var radius = 1.5;
+var TU = Math.PI * 2
+for(var i = 0 ; i < 32 ;i++){
+	var angle = i/4;
+    var loc = [Math.sin(TU*angle)*radius,0.75 + (0.5*((i/4)|0)),Math.cos(TU*angle)*radius]
+    var brick = ["brick","box"+(i%4),loc,[0,angle,0]]
+    console.log("box"+(i%3))
+    level.objs["brick"+i] = brick;
+}
 
 sideLoadLevel(module.exports)
