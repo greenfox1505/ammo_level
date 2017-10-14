@@ -1,7 +1,7 @@
 //a pure-data level. to be processed later!
 
-var brickRis = 0.0001
-var brickFric = 0.3
+var brickRis = 0.1
+var brickFric = 0.4
 if(!module){var module = {}}
 var level = module.exports = { 
     world:{
@@ -10,28 +10,29 @@ var level = module.exports = {
         camera:[10,10,10]
     },
     geos:{//cube and sphere gemoties are supports for MVP
-        brick:      ["cube",1,0.5,0.5],
+        brick:      ["cube",10,0.5,0.5],
         floorGeo:   ["cube",20,1,20],
         ballGeo:    ["sphere",1,32,32],
     },
     mats:{//[COLOR,WEIGHT] todo, more complex physics and material properties
-        floorColor: ["basic",0x000000,[0,0.2,0.2]],
-        ballColor:     ["basic",0x411E8F,[10,brickFric,brickRis]],
-        box0:       ["basic",0x335C49,[1,brickFric,brickRis]],
-        box1:       ["basic",0x678C40,[1,brickFric,brickRis]],
-        box2:       ["basic",0xBDBE36,[1,brickFric,brickRis]],
-        box3:       ["basic",0xE5DD90,[1,brickFric,brickRis]],
+        floorColor: [["basic",0x000000],[0,0.2,0.2]],
+        bar:        [["normal"],[0,0.2,0.2]],
+        ballColor:     [["basic",0x411E8F],[10,brickFric,brickRis]],
+        box0:       [["normal"],[1,brickFric,brickRis]],
     },
     objs:{//todo add all kinds of new properties, 
         floor:  ["floorGeo","floorColor",[0,0,0],[0,0,0]],
-        floor2: ["floorGeo","floorColor",[-15,5,0],[0,0,7/8]],
-        ball:   ["ballGeo","ballColor",[-15,10,0],[0,0,0]],
     },
 }
 
 var i = 0;
-var brick = ["brick","box1",[0,.75,0],[0,0,0]]
-level.objs["brick"+i] = brick;
+for( i of [1,2,3,4,5,6,7,8,9]){
+    var brick = ["brick","box0",[i,4.75,0],[0,1/8,0]]
+    level.objs["brick"+i] = brick;
+    console.log(i);
+}
+var brick = ["brick","bar",[3,3,-3],[0,3/8,0]]
+level.objs["bar"] = brick;
 
 
 sideLoadLevel(module.exports)
