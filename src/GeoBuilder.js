@@ -1,4 +1,6 @@
-var THREE = require("three/build/three.min.js")
+var THREE = require("three")
+var Ammo = require("ammojs")
+
 
 module.exports = function(geoArgs){//todo verify input
     if(geoArgs[0] == "cube"){
