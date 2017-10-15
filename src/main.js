@@ -1,4 +1,4 @@
-var THREE = require("three/build/three.min.js")
+var THREE = require("three")
 
 var threeData = require("./ThreeSettup.js")(THREE,{});
 var scene = threeData[0];var camera = threeData[1];var renderer = threeData[2]
