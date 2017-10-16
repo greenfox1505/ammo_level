@@ -1,5 +1,4 @@
 var THREE = require("three")
-var AMMO = require("ammojs")
 
 module.exports = function(materialArgs){//todo verify input
     var physics = {
