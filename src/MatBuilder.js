@@ -1,4 +1,4 @@
-var THREE = require("three/build/three.min.js")
+var THREE = require("three")
 
 module.exports = function(materialArgs){//todo verify input
     var physics = {

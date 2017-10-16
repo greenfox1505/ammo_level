@@ -1,4 +1,4 @@
-var THREE = require("three/build/three.min.js")
+var THREE = require("three")
 
 var threeData = require("./ThreeSettup.js")(THREE,{});
 var scene = threeData[0];var camera = threeData[1];var renderer = threeData[2]
@@ -23,6 +23,14 @@ window.sideLoadLevel = function(rawLevel){
     camera.lookAt(new THREE.Vector3( 0, 0, 0 ))
     var animate = function () {
         level.physicsTick(1/60);
+        
+
+        if(level.player.attached){
+            //move camera to attached
+            camera.position.copy(level.objs[level.player.attached].position);
+            camera.rotation.copy(level.objs[level.player.attached].rotation);
+            //camera.lookAt(new THREE.Vector3( 0, 0, 0 ))
+        }
         renderer.render(scene, camera);
         requestAnimationFrame( animate );
     };

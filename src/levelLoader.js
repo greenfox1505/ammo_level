@@ -5,6 +5,10 @@ var GeoBuilder = require("./GeoBuilder.js")
 var MatBuilder = require("./MatBuilder.js")
 
 module.exports = function (interfaces, rawLevel) {
+    var player = {};
+    if(rawLevel.player){
+        player =JSON.parse(JSON.stringify(rawLevel.player))
+    }
     var scene = interfaces.scene;
     var renderer = interfaces.renderer;
     if (rawLevel.world.background) { renderer = renderer.setClearColor(rawLevel.world.background, 1); }
@@ -23,7 +27,8 @@ module.exports = function (interfaces, rawLevel) {
         mats: {},
         geos: {},
         objs: {},
-        phyWorld: world
+        phyWorld: world,
+        player:player,
     }
 
     for (var i in rawLevel.geos) {
@@ -83,7 +88,6 @@ module.exports = function (interfaces, rawLevel) {
             obj.quaternion.copy(obj.phys.getQuaternion())
 
         }
-
         // and copy position and rotation to three mesh
         // myMesh.position.copy( body.getPosition() );
         // myMesh.quaternion.copy( body.getQuaternion() );
