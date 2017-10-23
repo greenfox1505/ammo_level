@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "watch": "$(npm bin)/watchify src/main.js -o \"./bin.js\" -v --debug",
-    "compile": "$(npm bin)/browserify src/main.js -o \"./bin.js\" -v"
+    "watch": "$(npm bin)/watchify src/main.js -o \"./bin.js\" -v --debug --standalone GameEngine",
+    "compile": "$(npm bin)/browserify src/main.js -o \"./bin.js\" -v --standalone GameEngine"
   },
   "author": "",
   "license": "ISC",

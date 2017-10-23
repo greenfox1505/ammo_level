@@ -2,8 +2,7 @@
 
 var brickRis = 0.1
 var brickFric = 0.4
-if(!module){var module = {}}
-var level = module.exports = { 
+var level = { 
     world:{
         grav:[0,-10,0],
         background:0x444444,
@@ -34,5 +33,4 @@ for( i of [1,2,3,4,5,6,7,8,9]){
 var brick = ["brick","bar",[3,3,-3],[0,3/8,0]]
 level.objs["bar"] = brick;
 
-
-sideLoadLevel(module.exports)
+GameEngine.Game(level)

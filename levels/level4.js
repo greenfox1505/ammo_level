@@ -1,7 +1,6 @@
 //a pure-data level. to be processed later!
 
-if(!module){var module = {}}
-var level = module.exports = { 
+var level = { 
     world:{
         grav:[0,-10,0],
         background:0x444444,
@@ -33,5 +32,5 @@ for( var layer = 0; layer  < 10; layer++){
     level.objs["barEnd" + layer +"l"] = bar;    
     
 }
-console.log(level.objs)
-sideLoadLevel(module.exports)
+
+GameEngine.Game(level)

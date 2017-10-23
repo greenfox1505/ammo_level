@@ -1,7 +1,6 @@
 //a pure-data level. to be processed later!
 
-if(!module){var module = {}}
-module.exports = { 
+var level = { 
     world:{
         grav:[0,-10,0],
         background:0xFF00FF,
@@ -31,7 +30,7 @@ module.exports = {
 
 for(var i = 1; i < 10; i++){
     var box = ["cubeGeo","box"+i%3,[0,i,0],[1/64,i/32,0]]
-    module.exports.objs["box" + i] = box;
+    level.objs["box" + i] = box;
 }
 
-window.sideLoadLevel(module.exports)
+GameEngine.Game(level)

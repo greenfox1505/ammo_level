@@ -5,11 +5,12 @@ var GeoBuilder = require("./GeoBuilder.js")
 var MatBuilder = require("./MatBuilder.js")
 
 module.exports = function (interfaces, rawLevel) {
+    var scene = new THREE.Scene();
+
     var player = {};
     if(rawLevel.player){
         player =JSON.parse(JSON.stringify(rawLevel.player))
     }
-    var scene = interfaces.scene;
     var renderer = interfaces.renderer;
     if (rawLevel.world.background) { renderer = renderer.setClearColor(rawLevel.world.background, 1); }
 
@@ -27,6 +28,7 @@ module.exports = function (interfaces, rawLevel) {
         mats: {},
         geos: {},
         objs: {},
+        renderWorld:scene,
         phyWorld: world,
         player:player,
     }
@@ -94,7 +96,7 @@ module.exports = function (interfaces, rawLevel) {
     }
 
     for (var i in level.objs) {
-        scene.add(level.objs[i]);
+        level.renderWorld.add(level.objs[i]);
     }
 
     console.log(level);

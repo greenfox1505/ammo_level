@@ -4,7 +4,10 @@ var level = {
     world:{
         grav:[0,-10,0],
         background:0x444444,
-        camera:[20,20,20]
+        camera:{
+            pos:[20,20,20],
+            lookAt:[0,0,0]
+        }
     },
     geos:{//cube and sphere gemoties are supports for MVP
         bar:      ["cube",2.9,1,1],
@@ -23,7 +26,7 @@ var level = {
         ball:["ballGeo","yellowDyn",[-40,20,0],[0,-1/4,0]]
     },
     player:{
-        attached:"ball",
+        //attached:"ball",
     }
 }
 
@@ -36,5 +39,5 @@ for( var layer = 0; layer  < 10; layer++){
     level.objs["barEnd" + layer +"l"] = bar;    
     
 }
-console.log(level.objs)
+
 GameEngine.Game(level)

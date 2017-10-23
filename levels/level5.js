@@ -1,5 +1,4 @@
-if (!module) { var module = {} }
-var level = module.exports = {
+var level = {
     world: {
         grav: [0, -10, 0],
         background: 0x444444,
@@ -91,4 +90,4 @@ DominoTower(-20,10,0,6);
 level.objs.dom0[3][2] = -0.1
 
 console.log("DomminoCount:",dominoCount)
-sideLoadLevel(module.exports)
+GameEngine.Game(level)

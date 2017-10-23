@@ -1,38 +1,61 @@
 var THREE = require("three")
 
-var threeData = require("./ThreeSettup.js")(THREE,{});
-var scene = threeData[0];var camera = threeData[1];var renderer = threeData[2]
+var threeData = require("./ThreeSettup.js")(THREE, {});
 
 
-//read url, pull level, add it to script:
-function loadLevelScript(LevelURL){
+/*
+Ways to load a level:
+from URL
+from tag in page
+from text editor
+
+Each of these will work best with a level callback. 
+
+*/
+
+function loadLevelScript(LevelURL) {
     var levelScript = document.createElement("script");
     levelScript.src = LevelURL
     document.body.appendChild(levelScript)
 }
-var query = location.href.substring(location.href.indexOf("?")+1);
+var query = location.href.substring(location.href.indexOf("?") + 1);
 console.log(query == location.href)
-if(query == location.href){query = "levels/level1.js"}
+if (query == location.href) { query = "levels/level1.js" }
 loadLevelScript(query)
 
-window.sideLoadLevel = function(rawLevel){
-    var level = require("./levelLoader.js")({scene:scene,renderer:renderer},rawLevel);
-    camera.position.z = rawLevel.world.camera[0];
-    camera.position.y = rawLevel.world.camera[1];
-    camera.position.x = rawLevel.world.camera[2];
-    camera.lookAt(new THREE.Vector3( 0, 0, 0 ))
+module.exports.Game = function (rawLevel) {
+    var level = require("./levelLoader.js")(threeData, rawLevel);
+    var camera = threeData.camera;
+    {
+        var camData = rawLevel.world.camera;
+        if (Array.isArray(camData)) {
+            camera.position.z = camData[0];
+            camera.position.y = camData[1];
+            camera.position.x = camData[2];
+            camera.lookAt(new THREE.Vector3(0, 0, 0))
+        }
+        else {
+            camera.position.z = camData.pos[0];
+            camera.position.y = camData.pos[1];
+            camera.position.x = camData.pos[2];
+            if (camData.lookAt){         
+                camera.lookAt(new THREE.Vector3(camData.lookAt[0],camData.lookAt[1],camData.lookAt[2]))
+            }
+    
+        }
+    }
     var animate = function () {
-        level.physicsTick(1/60);
-        
+        level.physicsTick(1 / 60);
 
-        if(level.player.attached){
+
+        if (level.player.attached) {
             //move camera to attached
             camera.position.copy(level.objs[level.player.attached].position);
             camera.rotation.copy(level.objs[level.player.attached].rotation);
             //camera.lookAt(new THREE.Vector3( 0, 0, 0 ))
         }
-        renderer.render(scene, camera);
-        requestAnimationFrame( animate );
+        threeData.renderer.render(level.renderWorld, camera);
+        requestAnimationFrame(animate);
     };
     animate();
 }
