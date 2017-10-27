@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "$(npm bin)/watchify src/main.js -o \"./bin.js\" -v --debug --standalone GameEngine",
-    "build": "$(npm bin)/browserify src/main.js -o \"./bin.js\" -v --standalone GameEngine"
+    "build": "$(npm bin)/browserify src/main.js -v --standalone GameEngine | $(npm bin)/uglifyjs > bin.js"
   },
   "author": "",
   "license": "ISC",
@@ -15,6 +15,7 @@
     "three": "^0.87.1"
   },
   "devDependencies": {
+    "uglify-js": "^3.1.5",
     "watchify": "^3.9.0"
   }
 }
