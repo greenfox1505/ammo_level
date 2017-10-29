@@ -38,10 +38,10 @@ module.exports.Game = function (rawLevel) {
             camera.position.z = camData.pos[0];
             camera.position.y = camData.pos[1];
             camera.position.x = camData.pos[2];
-            if (camData.lookAt){         
-                camera.lookAt(new THREE.Vector3(camData.lookAt[0],camData.lookAt[1],camData.lookAt[2]))
+            if (camData.lookAt) {
+                camera.lookAt(new THREE.Vector3(camData.lookAt[0], camData.lookAt[1], camData.lookAt[2]))
             }
-    
+
         }
     }
     var animate = function () {
@@ -58,4 +58,22 @@ module.exports.Game = function (rawLevel) {
         requestAnimationFrame(animate);
     };
     animate();
+
+    document.onmousedown = onDocumentMouseDown;
+
+    var raycaster = new THREE.Raycaster();
+    var mouse = new THREE.Vector2();
+
+    function onDocumentMouseDown(event) {
+        event.preventDefault();
+
+        mouse.x = (event.clientX / threeData.renderer.domElement.clientWidth) * 2 - 1;
+        mouse.y = - (event.clientY / threeData.renderer.domElement.clientHeight) * 2 + 1;
+
+        raycaster.setFromCamera(mouse, camera);
+        var intersects = raycaster.intersectObjects(level.objs);
+
+        console.log(intersects)
+    }
+
 }

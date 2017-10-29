@@ -17,7 +17,7 @@ var level = {
     mats:{//[COLOR,WEIGHT] todo, more complex physics and material properties
         solidBlack: [["basic",0x000000],[0,0.2,0.2]],
         yellowDyn: [["basic",0xFFFF00],[25,0.2,0.2]],
-        normal:        [["normal"],[1,0.2,0.2]],
+        normal:        [["normal"],{mass:1,fric:0.01,res:0.05}],
     },
     objs:{//todo add all kinds of new properties, 
         floor:  ["floorGeo","solidBlack",[0,-1,0],[0,0,0]],

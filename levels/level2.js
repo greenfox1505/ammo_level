@@ -1,12 +1,12 @@
 //a pure-data level. to be processed later!
 
-var brickRis = 0.0001
-var brickFric = 0.3
+var brickRis = 0.001
+var brickFric = 0.01
 var level = { 
     world:{
         grav:[0,-10,0],
         background:0x444444,
-        camera:[10,10,10]
+        camera:[10,2,10]
     },
     geos:{//cube and sphere gemoties are supports for MVP
         brick:      ["cube",1,0.5,0.5],
