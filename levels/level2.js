@@ -1,12 +1,12 @@
 //a pure-data level. to be processed later!
 
-var brickRis = 0.001
-var brickFric = 0.01
+var brickRis = 0.9
+var brickFric = 0.8
 var level = { 
     world:{
         grav:[0,-10,0],
         background:0x444444,
-        camera:[10,2,10]
+        camera:[10,10,10]
     },
     geos:{//cube and sphere gemoties are supports for MVP
         brick:      ["cube",1,0.5,0.5],
@@ -15,7 +15,7 @@ var level = {
     },
     mats:{//[COLOR,WEIGHT] todo, more complex physics and material properties
         floorColor: [["basic",0x000000],[0,0.2,0.2]],
-        ballColor:     [["basic",0x411E8F],[10,brickFric,brickRis]],
+        ballColor:     [["basic",0x411E8F],[100,brickFric,brickRis]],
         box0:       [["basic",0x335C49],[1,brickFric,brickRis]],
         box1:       [["basic",0x678C40],[1,brickFric,brickRis]],
         box2:       [["basic",0xBDBE36],[1,brickFric,brickRis]],
@@ -30,7 +30,7 @@ var level = {
 
 var radius = 1.5;
 var TU = Math.PI * 2
-for(var i = 0 ; i < 64 ;i++){
+for(var i = 0 ; i < 128 ;i++){
     var layerAOffSet = (((i/8)|0)%4)*(1/16)
     var angle = i/8 + layerAOffSet
     var x = Math.sin(TU*angle)*radius

@@ -1,32 +1,30 @@
 var THREE = require("three")
+var CANNON = require("cannon")
+//CANNON.Material("groundMaterial");
 
 module.exports = function (materialArgs) {//todo verify input
     {
         var physicData = materialArgs[1];
         if (Array.isArray(physicData)) {
-            var physics = {
-                move: physicData[0] ? true : false, // dynamic or statique
-                density: physicData[0] ? physicData[0] : 1,
+            physicData = {
+                mass: physicData[0],
                 friction: physicData[1],
                 restitution: physicData[2],
             }
         }
-        else {
-            var physics = {
-                move: physicData.mass ? true : false, // dynamic or statique
-                density: physicData.mass,
-                friction: physicData.fric,
-                restitution: physicData.rest,
-            }
-        }
     }
+    var cannonMat = new CANNON.Material();
+    cannonMat.friction = physicData.friction;
+    cannonMat.restitution = physicData.restitution;
+    cannonMat.mass = physicData.mass;
+    var renderMat;
     if (materialArgs[0][0] == "basic") {
-        return [new THREE.MeshBasicMaterial({ color: materialArgs[0][1] }), physics]
+        var renderMat = new THREE.MeshBasicMaterial({ color: materialArgs[0][1] })
     } else if (materialArgs[0][0] == "normal") {
-        return [new THREE.MeshNormalMaterial(), physics]
+        var renderMat = new THREE.MeshNormalMaterial();
     }
     else { throw "ERROR, THIS MATERIAL IS NOT IMPLEMENTED" }
-
+    return { render: renderMat,physics: cannonMat};
 
 
 }    

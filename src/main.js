@@ -10,22 +10,23 @@ from tag in page
 from text editor
 
 Each of these will work best with a level callback. 
-
+The level file builds a veriable and calls `Game(myLevel)`
 */
 
+//load level through URL.
 function loadLevelScript(LevelURL) {
     var levelScript = document.createElement("script");
     levelScript.src = LevelURL
     document.body.appendChild(levelScript)
 }
 var query = location.href.substring(location.href.indexOf("?") + 1);
-console.log(query == location.href)
-if (query == location.href) { query = "levels/level1.js" }
+if (query == location.href) { query = "levels/level1.js" } //defualt load level1
 loadLevelScript(query)
+
 
 module.exports.Game = function (rawLevel) {
     var level = require("./levelLoader.js")(threeData, rawLevel);
-    var camera = threeData.camera;
+    var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
     {
         var camData = rawLevel.world.camera;
         if (Array.isArray(camData)) {
@@ -58,22 +59,4 @@ module.exports.Game = function (rawLevel) {
         requestAnimationFrame(animate);
     };
     animate();
-
-    document.onmousedown = onDocumentMouseDown;
-
-    var raycaster = new THREE.Raycaster();
-    var mouse = new THREE.Vector2();
-
-    function onDocumentMouseDown(event) {
-        event.preventDefault();
-
-        mouse.x = (event.clientX / threeData.renderer.domElement.clientWidth) * 2 - 1;
-        mouse.y = - (event.clientY / threeData.renderer.domElement.clientHeight) * 2 + 1;
-
-        raycaster.setFromCamera(mouse, camera);
-        var intersects = raycaster.intersectObjects(level.objs);
-
-        console.log(intersects)
-    }
-
 }
