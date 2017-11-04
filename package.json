@@ -6,12 +6,13 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "$(npm bin)/watchify src/main.js -o \"./bin.js\" -v --debug --standalone GameEngine",
-    "compile": "$(npm bin)/browserify src/main.js -o \"./bin.js\" -v --standalone GameEngine"
+    "build": "$(npm bin)/browserify src/main.js -o \"./bin.js\" -v --standalone GameEngine"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "cannon": "^0.6.2",
+    "stats.js": "^0.17.0",
     "three": "^0.87.1"
   },
   "devDependencies": {

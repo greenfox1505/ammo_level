@@ -1,7 +1,12 @@
 var THREE = require("three")
+var stats = new (require("stats.js"))();
+stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
+document.body.appendChild(stats.dom);
+
 
 var threeData = require("./ThreeSettup.js")(THREE, {});
 
+module.exports.THREE = THREE;
 
 /*
 Ways to load a level:
@@ -26,7 +31,7 @@ loadLevelScript(query)
 
 module.exports.Game = function (rawLevel) {
     var level = require("./levelLoader.js")(threeData, rawLevel);
-    var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
+    var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     {
         var camData = rawLevel.world.camera;
         if (Array.isArray(camData)) {
@@ -46,6 +51,7 @@ module.exports.Game = function (rawLevel) {
         }
     }
     var animate = function () {
+        stats.begin();
         level.physicsTick(1 / 60);
 
 
@@ -57,6 +63,7 @@ module.exports.Game = function (rawLevel) {
         }
         threeData.renderer.render(level.renderWorld, camera);
         requestAnimationFrame(animate);
+        stats.end();
     };
     animate();
 }
