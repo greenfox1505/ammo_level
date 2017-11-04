@@ -28,8 +28,15 @@ var level = {
         floor2: ["floorGeo", "floorColor", [-15, 5, 0], [0, 0, 7 / 8]],
         ball: ["ballGeo", "ballColor", [-15, 10, 0], [0, 0, 0]],
     },
+    actions:{
+        lClick: function(e){
+            var level = this.level;
+            var ball = ["ballGeo", "ballColor", [0, 10, 0], [0, 0, 0]];
+            level.ObjBuilder("ball" + ballCount++,ball)
+        }
+    }
 }
-
+var ballCount = 0;
 var bCount = 0;
 
 var v3 = THREE.Vector3;

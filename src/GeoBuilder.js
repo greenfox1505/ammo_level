@@ -1,7 +1,7 @@
 var THREE = require("three")
 var CANNON = require("cannon")
 
-module.exports = function (geoArgs) {//todo verify input
+module.exports = function (name, geoArgs) {//todo verify input
     var output;
     if (geoArgs[0] == "cube") {
         output = {
@@ -19,6 +19,6 @@ module.exports = function (geoArgs) {//todo verify input
     else {
         throw "GEOMETRY NOT SUPPORTED!"
     }
-    console.log(output)
-    return output;
+    this.geos[name] = output;
+    return this.geos[name];
 }    

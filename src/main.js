@@ -28,9 +28,10 @@ var query = location.href.substring(location.href.indexOf("?") + 1);
 if (query == location.href) { query = "levels/level1.js" } //defualt load level1
 loadLevelScript(query)
 
+var level
 
 module.exports.Game = function (rawLevel) {
-    var level = require("./levelLoader.js")(threeData, rawLevel);
+    level = module.exports.level = require("./levelLoader.js")(threeData, rawLevel);
     var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     {
         var camData = rawLevel.world.camera;
@@ -66,4 +67,11 @@ module.exports.Game = function (rawLevel) {
         stats.end();
     };
     animate();
+}
+
+var ballCount = 0;
+document.body.onclick = function () {
+    var m = 10;
+    var randomVect3 = [Math.random() * m - (m / 2), Math.random() * m - (m / 2), Math.random() * m - (m / 2)]
+    level.ObjBuilder("ball" + ballCount++, ["ballGeo", "ballColor", [0, 10, 0], [0, 0, 0],randomVect3])
 }
