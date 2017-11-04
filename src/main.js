@@ -69,9 +69,3 @@ module.exports.Game = function (rawLevel) {
     animate();
 }
 
-var ballCount = 0;
-document.body.onclick = function () {
-    var m = 10;
-    var randomVect3 = [Math.random() * m - (m / 2), Math.random() * m - (m / 2), Math.random() * m - (m / 2)]
-    level.ObjBuilder("ball" + ballCount++, ["ballGeo", "ballColor", [0, 10, 0], [0, 0, 0],randomVect3])
-}
