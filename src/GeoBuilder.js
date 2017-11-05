@@ -1,8 +1,17 @@
 var THREE = require("three")
 var CANNON = require("cannon")
 
-module.exports = function (geoArgs) {//todo verify input
+module.exports = function (name, geoArgs) {//todo verify input
+    if(this.geos[name]){
+        throw ("GEOMETRY BY THIS NAME ALREADY EXISTS!:" + name)
+    }
+
     var output;
+    /**
+     * geoArgs[0] is shape.
+     * For cube, geoArgs[1 to 3] are xyz
+     * For Sphere, geoArg[1] is radius, geoArgs[2] is horizontal lines, 3 is vertical lines in the sphere
+     */
     if (geoArgs[0] == "cube") {
         output = {
             render: new THREE.BoxBufferGeometry(geoArgs[1], geoArgs[2], geoArgs[3]),
@@ -19,6 +28,6 @@ module.exports = function (geoArgs) {//todo verify input
     else {
         throw "GEOMETRY NOT SUPPORTED!"
     }
-    console.log(output)
-    return output;
+    this.geos[name] = output;
+    return {name:name,geo:this.geos[name]};
 }    

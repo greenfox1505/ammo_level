@@ -26,6 +26,10 @@ var level = {
         floor2: ["floorGeo","floorColor",[-15,5,0],[0,0,7/8]],
         ball:   ["ballGeo","ballColor",[-15,10,0],[0,0,0]],
     },
+    postLoad:function(level){
+        debugger
+        console.log('loaded level!')
+    }
 }
 
 var radius = 1.5;
@@ -36,8 +40,9 @@ for(var i = 0 ; i < 128 ;i++){
     var x = Math.sin(TU*angle)*radius
     var z = Math.cos(TU*angle)*radius
     var brick = ["brick","box"+(i%4),[x,.75+((i/8|0)*0.5),z],[0,angle,0]]
-    console.log("box"+(i%3))
     level.objs["brick"+i] = brick;
 }
+
+
 
 GameEngine.Game(level)

@@ -2,7 +2,10 @@ var THREE = require("three")
 var CANNON = require("cannon")
 //CANNON.Material("groundMaterial");
 
-module.exports = function (materialArgs) {//todo verify input
+module.exports = function (name, materialArgs) {//todo verify input
+    if(this.mats[name]){
+        throw ("MATERIAL BY THIS NAME ALREADY EXISTS!:" + name)
+    }
     {
         var physicData = materialArgs[1];
         if (Array.isArray(physicData)) {
@@ -24,7 +27,8 @@ module.exports = function (materialArgs) {//todo verify input
         var renderMat = new THREE.MeshNormalMaterial();
     }
     else { throw "ERROR, THIS MATERIAL IS NOT IMPLEMENTED" }
-    return { render: renderMat,physics: cannonMat};
-
-
+    
+    this.mats[name] = { render: renderMat,physics: cannonMat}
+    return this.mats[name];
 }    
+

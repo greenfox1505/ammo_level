@@ -13,7 +13,7 @@ var level = {
     geos: {//cube and sphere gemoties are supports for MVP
         brick: ["cube", 1, 0.5, 0.5],
         floorGeo: ["cube", 20, 1, 20],
-        ballGeo: ["sphere", 1, 32, 32],
+        ballGeo: ["sphere", 0.5, 32, 32],
     },
     mats: {//[COLOR,WEIGHT] todo, more complex physics and material properties
         floorColor: [["basic", 0x000000], [0, 0.2, 0.2]],
@@ -25,11 +25,10 @@ var level = {
     },
     objs: {//todo add all kinds of new properties, 
         floor: ["floorGeo", "floorColor", [0, -0.75, 0], [0, 0, 0]],
-        floor2: ["floorGeo", "floorColor", [-15, 5, 0], [0, 0, 7 / 8]],
-        ball: ["ballGeo", "ballColor", [-15, 10, 0], [0, 0, 0]],
+        ball: ["ballGeo", "ballColor", [25, 5, 0], [0, 0, 0],[-100,0,0]],
     },
 }
-
+var ballCount = 0;
 var bCount = 0;
 
 var v3 = THREE.Vector3;
@@ -52,7 +51,7 @@ function layer(offsetVect,isOdd) {
         level.objs["brink" + (bCount++)] = brick
     }
 }
-for( var i = 0; i < 10; i++){
+for( var i = 0; i < 20; i++){
     layer(new THREE.Vector3(0,i/2,0),i%2)
 }
 console.log(bCount + " BRICKS!")
