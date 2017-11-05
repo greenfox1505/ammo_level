@@ -3,6 +3,9 @@ var CANNON = require("cannon")
 //CANNON.Material("groundMaterial");
 
 module.exports = function (name, materialArgs) {//todo verify input
+    if(this.mats[name]){
+        throw ("MATERIAL BY THIS NAME ALREADY EXISTS!:" + name)
+    }
     {
         var physicData = materialArgs[1];
         if (Array.isArray(physicData)) {

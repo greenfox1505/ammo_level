@@ -11,9 +11,6 @@ module.exports = function (interfaces, rawLevel) {
     }
     var renderer = interfaces.renderer;
     if (rawLevel.world.background) { renderer = renderer.setClearColor(rawLevel.world.background, 1); }
-
-
-
     var level = { //fully loaded level
         MatBuilder: require("./MatBuilder.js"),
         mats: {},
@@ -26,7 +23,7 @@ module.exports = function (interfaces, rawLevel) {
         player: player,
     }
     level.phyWorld.gravity.set(rawLevel.world.grav[0], rawLevel.world.grav[1], rawLevel.world.grav[2]); // m/s²
-    
+
     for (var geoName in rawLevel.geos) {
         level.GeoBuilder(geoName, rawLevel.geos[geoName])
     }
@@ -34,26 +31,15 @@ module.exports = function (interfaces, rawLevel) {
     for (var matName in rawLevel.mats) {
         level.MatBuilder(matName, rawLevel.mats[matName])
     }
-
-    //level.createObject = function
-
-
     for (var objName in rawLevel.objs) {
-        try {
-            level.ObjBuilder(objName,rawLevel.objs[objName])
-        } catch (e) {
-            console.error("Error Loading Object(" + objName + ")!");
-
-            throw ("Error Loading " + objName, e);
-
-        }
-
+        level.ObjBuilder(objName, rawLevel.objs[objName])
     }
+
+    if(rawLevel.postLoad){rawLevel.postLoad(level)};
 
     level.physicsTick = function (time) {
         //copy physics data to world data
         level.phyWorld.step(1 / 60);
-
         for (var i in level.objs) {
             var obj = level.objs[i];
             obj.position.x = obj.phys.position.x
@@ -65,7 +51,6 @@ module.exports = function (interfaces, rawLevel) {
             obj.quaternion.z = obj.phys.quaternion.z
         }
     }
-
 
     console.log(level);
     return level;

@@ -2,6 +2,10 @@ var THREE = require("three")
 var CANNON = require("cannon")
 
 module.exports = function (name, geoArgs) {//todo verify input
+    if(this.geos[name]){
+        throw ("GEOMETRY BY THIS NAME ALREADY EXISTS!:" + name)
+    }
+
     var output;
     if (geoArgs[0] == "cube") {
         output = {
@@ -20,5 +24,5 @@ module.exports = function (name, geoArgs) {//todo verify input
         throw "GEOMETRY NOT SUPPORTED!"
     }
     this.geos[name] = output;
-    return this.geos[name];
+    return {name:name,geo:this.geos[name]};
 }    

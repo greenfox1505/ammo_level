@@ -30,6 +30,8 @@ loadLevelScript(query)
 
 var level
 
+Math.TU = Math.PI *2;
+
 module.exports.Game = function (rawLevel) {
     level = module.exports.level = require("./levelLoader.js")(threeData, rawLevel);
     var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -42,11 +44,18 @@ module.exports.Game = function (rawLevel) {
             camera.lookAt(new THREE.Vector3(0, 0, 0))
         }
         else {
-            camera.position.z = camData.pos[0];
+            camera.position.x = camData.pos[0];
             camera.position.y = camData.pos[1];
-            camera.position.x = camData.pos[2];
+            camera.position.z = camData.pos[2];
             if (camData.lookAt) {
                 camera.lookAt(new THREE.Vector3(camData.lookAt[0], camData.lookAt[1], camData.lookAt[2]))
+            } else if (camData.rot) {
+                camera.rotateY(camData.rot[1]*Math.TU)
+                camera.rotateX(camData.rot[0]*Math.TU)
+                camera.rotateZ(camData.rot[2]*Math.TU)
+                //throw "camera rotation not yet supported"
+            } else {
+                camera.lookAt(new THREE.Vector3(0, 0, 0))
             }
 
         }

@@ -3,6 +3,9 @@ var CANNON = require("cannon")
 
 var tau = Math.PI * 2
 module.exports = function (name, objectArgs) {
+    if(this.objs[name]){
+        throw "OBJECT WITH THIS NAME ALREADY EXISTS!:" + name;
+    }
     try {
         var geo = this.geos[objectArgs[0]]
         var mat = this.mats[objectArgs[1]]
