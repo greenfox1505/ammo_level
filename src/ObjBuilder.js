@@ -31,6 +31,7 @@ module.exports = function (name, objectArgs) {
         this.phyWorld.addBody(obj.phys);
         this.renderWorld.add(obj);
         
+        return obj
     } catch (e) {
         console.error("Error Loading Object(" + i + ")!");
         if (geo) { console.error("geo:", geo) }

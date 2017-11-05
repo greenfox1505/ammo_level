@@ -8,7 +8,7 @@ var level = {
     world: {
         grav: [0, -10, 0],
         background: 0x444444,
-        camera: {pos:[10, 10, 10],rot:[-1/8,1/8,0]}
+        camera: {pos:[8,8,8],lookAt:[0,2,0]}
     },
     geos: {//cube and sphere gemoties are supports for MVP
         brick: ["cube", 1, 0.5, 0.5],
@@ -24,9 +24,16 @@ var level = {
         box3: [["basic", 0xE5DD90], [1, brickFric, brickRis]],
     },
     objs: {//todo add all kinds of new properties, 
-        floor: ["floorGeo", "floorColor", [0, -0.75, 0], [0, 0, 0]],
-        ball: ["ballGeo", "ballColor", [25, 5, 0], [0, 0, 0],[-100,0,0]],
+        floor: ["floorGeo", "floorColor", [0, 0, 0], [0, 0, 0]],
+        northWall: ["floorGeo", "floorColor", [10, 10, 0], [0, 0, 1/4]],
+        southWall: ["floorGeo", "floorColor", [-10, 10, 0], [0, 0, 1/4]],
+        eastWall: ["floorGeo", "floorColor", [0, 10, 10], [1/4, 0, 0]],
+        eastWall: ["floorGeo", "floorColor", [0, 10, -10], [1/4, 0, 0]],
+        ball: ["ballGeo", "ballColor", [7, 5, 7], [0, 0, 0],[-75,0,-75]],
     },
+    player:{
+        starting:{pos:[5,5,0],lookAt:[0,0,0]}
+    }
 }
 var ballCount = 0;
 var bCount = 0;
@@ -52,7 +59,7 @@ function layer(offsetVect,isOdd) {
     }
 }
 for( var i = 0; i < 20; i++){
-    layer(new THREE.Vector3(0,i/2,0),i%2)
+    layer(new THREE.Vector3(0,i/2+ .75,0),i%2)
 }
 console.log(bCount + " BRICKS!")
 // var radius = 1.5;

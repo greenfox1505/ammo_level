@@ -7,6 +7,11 @@ module.exports = function (name, geoArgs) {//todo verify input
     }
 
     var output;
+    /**
+     * geoArgs[0] is shape.
+     * For cube, geoArgs[1 to 3] are xyz
+     * For Sphere, geoArg[1] is radius, geoArgs[2] is horizontal lines, 3 is vertical lines in the sphere
+     */
     if (geoArgs[0] == "cube") {
         output = {
             render: new THREE.BoxBufferGeometry(geoArgs[1], geoArgs[2], geoArgs[3]),
