@@ -1,4 +1,4 @@
-var THREE = require("three")
+ var THREE = require("three")
 var stats = new (require("stats.js"))();
 stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
 document.body.appendChild(stats.dom);
@@ -25,7 +25,7 @@ function loadLevelScript(LevelURL) {
     document.body.appendChild(levelScript)
 }
 var query = location.href.substring(location.href.indexOf("?") + 1);
-if (query == location.href) { query = "levels/level1.js" } //defualt load level1
+if (query == location.href) { query = "levels/level11.js" } //defualt load level1
 loadLevelScript(query)
 
 var level
