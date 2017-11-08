@@ -8,7 +8,7 @@ function squishy(a, b, rate) {
 //require("Player.js")(level,camera);
 module.exports = function (level, camera, playerData) {
     level.GeoBuilder("PlayerGeo", ["cube", 0.75, 2, 0.75]);
-    level.MatBuilder("PlayerMat", [["basic", 0xFFFFFF], { mass: 25, fric: 1, res: 0.0 }]);
+    level.MatBuilder("PlayerMat", [["basic", 0xFFFFFF], { mass: 25, fric: 0, res: 0.0 }]);
     console.log(playerData);
     var player = level.ObjBuilder("PLAYER", ["PlayerGeo", "PlayerMat", playerData.starting.pos, [0, 0, 0]])
     console.log(player);
@@ -38,7 +38,7 @@ module.exports = function (level, camera, playerData) {
 
         var speed = {
             movement: 25,
-            rotation: 0.02,
+            rotation: 0.01,
             jump : 8
         }
         var movement = new THREE.Vector3(0, 0, 0);
@@ -65,7 +65,7 @@ module.exports = function (level, camera, playerData) {
         var cameraDest = playerPos.clone().vadd(new CANNON.Vec3(cameraBack.x, cameraBack.y, cameraBack.z));
         console.log(cameraDest);
 
-        var squishSpeed = 0.9;
+        var squishSpeed = 0.95;
         camera.position.x = squishy(camera.position.x, cameraDest.x, squishSpeed)
         camera.position.y = squishy(camera.position.y, cameraDest.y, squishSpeed)
         camera.position.z = squishy(camera.position.z, cameraDest.z, squishSpeed)

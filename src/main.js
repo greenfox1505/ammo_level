@@ -1,10 +1,12 @@
+var Params = require("./URLGrabber.js")
+
 var THREE = require("three")
 var stats = new (require("stats.js"))();
 stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
 document.body.appendChild(stats.dom);
 
 
-var threeData = require("./ThreeSettup.js")(THREE, {});
+var threeData = require("./ThreeSettup.js")(THREE);
 
 module.exports.THREE = THREE;
 
@@ -24,11 +26,12 @@ function loadLevelScript(LevelURL) {
     levelScript.src = LevelURL
     document.body.appendChild(levelScript)
 }
-var query = location.href.substring(location.href.indexOf("?") + 1);
-if (query == location.href) { query = "levels/level1.js" } //defualt load level1
-loadLevelScript(query)
+if (Params["level"]) {
+    loadLevelScript(Params["level"])
+} else {
+    loadLevelScript("levels/level11.js")
+} 
 
-var level
 
 Math.TU = Math.PI * 2;
 
