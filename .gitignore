@@ -1,2 +1,4 @@
 node_modules
 .vscode/launch.json
+assets
+npm-debug.log

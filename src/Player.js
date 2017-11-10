@@ -8,10 +8,9 @@ function squishy(a, b, rate) {
 //require("Player.js")(level,camera);
 module.exports = function (level, camera, playerData) {
     level.GeoBuilder("PlayerGeo", ["cube", 0.75, 2, 0.75]);
-    level.MatBuilder("PlayerMat", [["basic", 0xFFFFFF], { mass: 25, fric: 1, res: 0.0 }]);
-    console.log(playerData);
+    level.MatBuilder("PlayerMat", [["pbr", {color:0xffffff}], { mass: 1, fric: 0, res: 1 }]);
     var player = level.ObjBuilder("PLAYER", ["PlayerGeo", "PlayerMat", playerData.starting.pos, [0, 0, 0]])
-    console.log(player);
+    player.castShadow = true;
     player.phys.angularDamping = 1;
 
     var keys = { w: 0, a: 0, s: 0, d: 0 }
@@ -38,8 +37,8 @@ module.exports = function (level, camera, playerData) {
 
         var speed = {
             movement: 25,
-            rotation: 0.02,
-            jump : 8
+            rotation: 0.01,
+            jump: 8
         }
         var movement = new THREE.Vector3(0, 0, 0);
         if (keys.w) movement.z += 1;
@@ -50,9 +49,10 @@ module.exports = function (level, camera, playerData) {
         //todo rotate these by some Y angle?
         player.phys.quaternion.setFromAxisAngle(new CANNON.Vec3(0, 1, 0), yAngle * Math.PI * 2)
 
-
-        player.phys.velocity.x = squishy(player.phys.velocity.x, movement.x, 0.95);
-        player.phys.velocity.z = squishy(player.phys.velocity.z, movement.z, 0.95);
+        if ((movement.x || movement.z )&& player.grounded) {
+            player.phys.velocity.x = movement.x//squishy(player.phys.velocity.x, movement.x, 0.95);
+            player.phys.velocity.z = movement.z//squishy(player.phys.velocity.z, movement.z, 0.95);
+        }
         if (player.grounded && keys[" "] == 1) {
             player.grounded = false; keys[" "] = -1;
             player.phys.velocity.y = speed.jump;
@@ -61,16 +61,15 @@ module.exports = function (level, camera, playerData) {
 
         //move camera to some close proximity of player!
         var playerPos = player.phys.position;
-        var cameraBack = new THREE.Vector3(0, 2, 4).applyAxisAngle(new THREE.Vector3(0,1,0),(yAngle-0.5)*Math.PI*2);
+        var cameraBack = new THREE.Vector3(0, 2, 4).applyAxisAngle(new THREE.Vector3(0, 1, 0), (yAngle - 0.5) * Math.PI * 2);
         var cameraDest = playerPos.clone().vadd(new CANNON.Vec3(cameraBack.x, cameraBack.y, cameraBack.z));
-        console.log(cameraDest);
 
-        var squishSpeed = 0.9;
+        var squishSpeed = 0.95;
         camera.position.x = squishy(camera.position.x, cameraDest.x, squishSpeed)
         camera.position.y = squishy(camera.position.y, cameraDest.y, squishSpeed)
         camera.position.z = squishy(camera.position.z, cameraDest.z, squishSpeed)
-        
-        
+
+
         camera.lookAt(new THREE.Vector3(playerPos.x, playerPos.y, playerPos.z))
 
     }

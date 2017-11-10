@@ -18,6 +18,8 @@ module.exports = function (interfaces, rawLevel) {
         geos: {},
         ObjBuilder: require("./ObjBuilder.js"),
         objs: {},
+        LightBuilder: require("./LightBuilder.js"),
+        lights: {},
         renderWorld: scene,
         phyWorld: new CANNON.World(),
         player: player,
@@ -34,8 +36,11 @@ module.exports = function (interfaces, rawLevel) {
     for (var objName in rawLevel.objs) {
         level.ObjBuilder(objName, rawLevel.objs[objName])
     }
+    for (var lightName in rawLevel.lights) {
+        level.LightBuilder(lightName, rawLevel.lights[lightName])
+    }
 
-    if(rawLevel.postLoad){rawLevel.postLoad(level)};
+    if (rawLevel.postLoad) { rawLevel.postLoad(level) };
 
     level.physicsTick = function (time) {
         //copy physics data to world data
