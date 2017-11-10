@@ -37,8 +37,8 @@ module.exports = function (name, materialArgs) {//todo verify input
 }
 
 var TextureLib = {}//todo cache textures with matching names
+var mapTypes = ["map", "normalMap","aoMap","roughnessMap"]
 function TextureFilter(input) {
-    const mapTypes = ["map", "normalMap","aoMap","roughnessMap"]
     for (i of mapTypes) {
         if (input[i]) {
             input[i] = new THREE.TextureLoader().load(input[i]);
