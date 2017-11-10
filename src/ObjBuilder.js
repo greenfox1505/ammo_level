@@ -28,6 +28,9 @@ module.exports = function (name, objectArgs) {
         var rot = objectArgs[3]
         obj.phys.quaternion.setFromEuler(rot[0] * tau, rot[1] * tau, rot[2] * tau, "XYZ")
 
+        obj.castShadow = true;
+        obj.receiveShadow = true;
+
         this.phyWorld.addBody(obj.phys);
         this.renderWorld.add(obj);
 

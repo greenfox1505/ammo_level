@@ -44,6 +44,6 @@ function TextureFilter(input) {
             input[i] = new THREE.TextureLoader().load(input[i]);
         }
     }
-    console.log("TEXTURE FILTER" , input);
+    console.log("TEXTURE FILTER", input);
     return input
 }
