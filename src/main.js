@@ -77,7 +77,7 @@ module.exports.Game = function (rawLevel) {
     animate();
     var player = null;
     if (rawLevel.player) {
-        player = require("./Player.js")(level, camera, rawLevel.player);
+        player = require("./player/Player.js")(level, camera, rawLevel.player);
     }
 
 }

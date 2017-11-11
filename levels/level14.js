@@ -20,6 +20,12 @@ var level = {
             normalMap: "assets/Panel_Mahogany/Panel_Mahogany_Nor.jpg",
             map: "assets/Panel_Mahogany/Panel_Mahogany_Alb.jpg"
         }], [0.5, 0.2, 0.2]],
+        iron: [["pbr", {
+            roughnessMap: "assets/rustyIron/roughness.png",
+            aoMap: "assets/rustyIron/metallic.png",
+            normalMap: "assets/rustyIron/normal.png",
+            map: "assets/rustyIron/basecolor.png"
+        }], [0.5, 0.2, 0.2]],
         woodStatic: [["pbr", {
             roughnessMap: "assets/Panel_Mahogany/Panel_Mahogany_Rou.jpg",
             aoMap: "assets/Panel_Mahogany/Panel_Mahogany_AO.jpg",
@@ -44,13 +50,13 @@ var level = {
     objs: {//todo add all kinds of new properties, 
         floor: ["floorGeo", "floorColor", [0, 0, 0], [0, 0, 0]],
         floatBall: ["ball", "woodStatic", [0, 3, 0], [0, 0, 0]],
-        floatBall2: ["ball", "tileStatic", [6, 3, 0], [0, 0, 0]],
+        floatBall2: ["ball", "tileStatic", [6, 3, 6], [0, 0, 0]],
     },
     lights: {
         amb: ["amb", { color: 0x40464f }],
-        point1: ["point", { color: 0xFF8888, pos: [0, 5, 5], shadow: true }],
-        point2: ["point", { color: 0x88ff88, pos: [5, 5, 0], shadow: true }],
-        point3: ["point", { color: 0x8888ff, pos: [-5, 5, -5], shadow: true }],
+        point1: ["point", { color: 0xFF8888, pos: [0, 7, 5], shadow: true }],
+        point2: ["point", { color: 0x88ff88, pos: [5, 7, 0], shadow: true }],
+        point3: ["point", { color: 0x8888ff, pos: [-5, 7, -5], shadow: true }],
     },
     player: {
         starting: { pos: [5, 5, 0], lookAt: [0, 0, 0] },
@@ -66,7 +72,7 @@ var level = {
 }
 
 for (var i = 1; i < 10; i++) {
-    var box = ["cubeGeo", ["tile", "wood"][i % 2], [0, s * i+ 5, 0], [0, i / 32, 0]]
+    var box = ["cubeGeo", ["tile", "wood","iron"][i % 3], [0, s * i+ 5, 0], [0, i / 32, 0]]
     level.objs["box" + i] = box;
 }
 
