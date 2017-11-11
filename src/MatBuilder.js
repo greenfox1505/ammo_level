@@ -28,7 +28,6 @@ module.exports = function (name, materialArgs) {//todo verify input
     }
     else if (materialArgs[0][0] == "pbr") {
         var renderMat = new THREE.MeshStandardMaterial(TextureFilter(materialArgs[0][1]));
-        console.log(materialArgs[0], renderMat)
     }
     else { throw "ERROR, THIS MATERIAL IS NOT IMPLEMENTED" }
 
@@ -44,6 +43,5 @@ function TextureFilter(input) {
             input[i] = new THREE.TextureLoader().load(input[i]);
         }
     }
-    console.log("TEXTURE FILTER", input);
     return input
 }

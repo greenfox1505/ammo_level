@@ -9,7 +9,7 @@ var level = {
     },
     geos: {//cube and sphere gemoties are supports for MVP
         cubeGeo: ["cube", s, s, s],
-        ball: ["sphere", 5, 64,32],
+        ball: ["sphere", 3, 64,32],
         floorGeo: ["cube", 100, 1, 100],
     },
     mats: {//[COLOR,WEIGHT] todo, more complex physics and material properties

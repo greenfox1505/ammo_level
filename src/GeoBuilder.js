@@ -29,10 +29,9 @@ module.exports = function (name, geoArgs) {//todo verify input
         loader.load('models/monster.obj')
 
         output = {
-            render: new THREE.SphereBufferGeometry(geoArgs[1], geoArgs[2], geoArgs[3]),
+            render: new loader.load('models/monster.obj'),
             physics: new CANNON.Sphere(geoArgs[1])
         }
-        console
     }
     else {
         throw "GEOMETRY NOT SUPPORTED!"

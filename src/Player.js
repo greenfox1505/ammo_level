@@ -19,12 +19,9 @@ module.exports = function (level, camera, playerData) {
     throw "Bad Camera"
 }
     
-function FPS(level, camera, playerData){
-    
-}
 function Fly(level, camera, playerData){
     var domElement =level.interfaces.renderer.domElement;
-    var speed = {mouseSensitivity : 0.0025}
+    var speed = {mouseSensitivity : 0.0025,moveSpeed:0.1}
     
     camera.rotation.order = "YXZ"
     //wasd space c camera
@@ -36,14 +33,17 @@ function Fly(level, camera, playerData){
     rotY = 0;
     
     playerData.onFrame = function(){
-        console.log('hitme')
         var move = new THREE.Vector3()
-        if (keys.w) move.z += 1;
-        if (keys.s) move.z -= 1;
-        if (keys.a) move.x += 1;
-        if (keys.d) move.x -= 1;
+        if (keys.w) move.z -= 1;
+        if (keys.s) move.z += 1;
+        if (keys.a) move.x -= 1;
+        if (keys.d) move.x += 1;
+        if (keys.c) move.y -= 1;
+        if (keys[" "]) move.y += 1;
         move.applyAxisAngle(new THREE.Vector3(1,0,0),camera.rotation.x)
         move.applyAxisAngle(new THREE.Vector3(0,1,0),camera.rotation.y)
+        move.multiplyScalar(speed.moveSpeed)
+        camera.position.add(move);
     }
 
     //onclick capture camera, listen for wasdc
@@ -64,7 +64,7 @@ function Fly(level, camera, playerData){
             }
         }
     })
-    var keys = { w: 0, a: 0, s: 0, d: 0 }
+    var keys = { w: 0, a: 0, s: 0, d: 0 ,c:0}
     keys[" "] = 0;
     document.body.addEventListener("keydown", function (e) {
         if (keys[e.key] != null) {
@@ -82,12 +82,9 @@ function Fly(level, camera, playerData){
             keys[" "] = 0;
         }
     })
-
-
-    //on leave focus, disable abvoe
-
-
+    return playerData;
 }
+
 function Unreal(level, camera, playerData){
     //unreal engine style camera. great for navigating large worlds.
 }

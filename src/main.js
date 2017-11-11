@@ -30,7 +30,7 @@ if (Params["level"]) {
     loadLevelScript(Params["level"])
 } else {
     loadLevelScript("levels/level11.js")
-} 
+}
 
 
 Math.TU = Math.PI * 2;
@@ -63,10 +63,8 @@ module.exports.Game = function (rawLevel) {
 
         }
     }
-    debugger
     var animate = function () {
         stats.begin();
-        debugger
         if (player) player.onFrame()
         if (level.onFrame) level.onFrame();
         level.physicsTick(1 / 60);

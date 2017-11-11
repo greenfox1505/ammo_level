@@ -2,7 +2,6 @@ var THREE = require("three")
 var CANNON = require("cannon")
 
 module.exports = function (name, lightArgs) {//todo verify input
-    console.log(this, lightArgs);
     if (this.lights[name]) {
         throw ("LIGHT BY THIS NAME ALREADY EXISTS!:" + name)
     }
@@ -21,10 +20,8 @@ module.exports = function (name, lightArgs) {//todo verify input
             output.shadow.mapSize.height = 512; // default
             output.shadow.camera.near = 0.5;       // default
             output.shadow.camera.far = 500  
-            console.log("SHADOW CAST!")
         }
 //        output.castShadow = lightArgs[1].shadow
-        console.log(this, output);
     }
     else{
         throw "LIGHT TYPE NOT SUPPORTED"
