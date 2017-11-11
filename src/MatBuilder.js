@@ -37,7 +37,7 @@ module.exports = function (name, materialArgs) {//todo verify input
 }
 
 var TextureLib = {}//todo cache textures with matching names
-var mapTypes = ["map", "normalMap","aoMap","roughnessMap"]
+var mapTypes = ["map", "normalMap","aoMap","roughnessMap","displacementMap"]
 function TextureFilter(input) {
     for (i of mapTypes) {
         if (input[i]) {

@@ -63,9 +63,12 @@ module.exports.Game = function (rawLevel) {
 
         }
     }
+    debugger
     var animate = function () {
         stats.begin();
+        debugger
         if (player) player.onFrame()
+        if (level.onFrame) level.onFrame();
         level.physicsTick(1 / 60);
 
 

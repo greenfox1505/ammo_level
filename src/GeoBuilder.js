@@ -23,6 +23,15 @@ module.exports = function (name, geoArgs) {//todo verify input
             render: new THREE.SphereBufferGeometry(geoArgs[1], geoArgs[2], geoArgs[3]),
             physics: new CANNON.Sphere(geoArgs[1])
         }
+    }
+    else if (geoArgs[0] == "obj") {
+        var loader = new THREE.OBJLoader();
+        loader.load('models/monster.obj')
+
+        output = {
+            render: new THREE.SphereBufferGeometry(geoArgs[1], geoArgs[2], geoArgs[3]),
+            physics: new CANNON.Sphere(geoArgs[1])
+        }
         console
     }
     else {
