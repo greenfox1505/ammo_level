@@ -9,7 +9,7 @@ var level = {
     },
     geos: {//cube and sphere gemoties are supports for MVP
         cubeGeo: ["cube", s, s, s],
-        ball: ["sphere", 3, 64,32],
+        ball: ["sphere", 2, 64,32],
         floorGeo: ["cube", 100, 1, 100],
     },
     mats: {//[COLOR,WEIGHT] todo, more complex physics and material properties
@@ -33,10 +33,18 @@ var level = {
             normalMap: "assets/Tiles_2/Tiles_2_Nor.jpg",
             map: "assets/Tiles_2/Tiles_2_Alb.jpg"
         }], [0.5, 0.2, 0.2]],
+        tileStatic: [["pbr", {
+            displacementMap: "",
+            roughnessMap: "assets/Tiles_2/Tiles_2_Rou.jpg",
+            aoMap: "assets/Tiles_2/Tiles_2_AO.jpg",
+            normalMap: "assets/Tiles_2/Tiles_2_Nor.jpg",
+            map: "assets/Tiles_2/Tiles_2_Alb.jpg"
+        }], [0, 0.2, 0.2]],
     },
     objs: {//todo add all kinds of new properties, 
         floor: ["floorGeo", "floorColor", [0, 0, 0], [0, 0, 0]],
-        floatBall: ["ball", "woodStatic", [0, 0, 0], [0, 0, 0]],
+        floatBall: ["ball", "woodStatic", [0, 3, 0], [0, 0, 0]],
+        floatBall2: ["ball", "tileStatic", [6, 3, 0], [0, 0, 0]],
     },
     lights: {
         amb: ["amb", { color: 0x40464f }],
