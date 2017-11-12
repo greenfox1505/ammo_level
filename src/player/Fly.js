@@ -19,6 +19,10 @@ module.exports = function Fly(level, camera, playerData){
     camera.position.x = playerData.starting.pos[0]
     camera.position.y = playerData.starting.pos[1]
     camera.position.z = playerData.starting.pos[2]
+    if(playerData.starting.lookAt){
+        var l = playerData.starting.lookAt;
+        camera.lookAt(new THREE.Vector3(l[0], l[1], l[2]))
+    }
 
     rotX = 0;
     rotY = 0;

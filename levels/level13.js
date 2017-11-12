@@ -22,6 +22,12 @@ var level = {
         box1: [["pbr", { color: 0xffffff }], [1, brickFric, brickRis]],
         box2: [["pbr", { color: 0xffffff }], [1, brickFric, brickRis]],
         box3: [["pbr", { color: 0xffffff }], [1, brickFric, brickRis]],
+        wood: [["pbr", {
+            roughnessMap: "assets/Panel_Mahogany/Panel_Mahogany_Rou.jpg",
+            aoMap: "assets/Panel_Mahogany/Panel_Mahogany_AO.jpg",
+            normalMap: "assets/Panel_Mahogany/Panel_Mahogany_Nor.jpg",
+            map: "assets/Panel_Mahogany/Panel_Mahogany_Alb.jpg"
+        }], [0.5, 0.2, 0.2]],
     },
     lights: {
         amb: ["amb", { color: 0x40464f }],
@@ -35,6 +41,10 @@ var level = {
         floor3: ["floorGeo", "floorColor", [0, 9, -10], [1 / 4, 0, 0]],
         //floor3: ["floorGeo", "floorColor", [0, -0.75, 0], [0, 0, 0]],
         ball: ["ballGeo", "ballColor", [25, 5, 0], [0, 0, 0], [-100, 0, 0]],
+    },
+    player: {
+        starting: { pos: [5, 5, 3], lookAt: [0, 0, 0] },
+        type: "Fly"
     },
 }
 var ballCount = 0;
@@ -56,7 +66,7 @@ function layer(offsetVect, isOdd) {
         var angleOffset = isOdd ? 1 / (count * 2) : 0
         var v = new THREE.Vector3(2.8, 0, 0);
         v.applyAxisAngle(new THREE.Vector3(0, 1, 0), (i / count + angleOffset) * Math.PI * 2).add(offsetVect);
-        var brick = ["brick", "box" + (i % 4), [v.x, v.y, v.z], [0, i / count + 1 / 4 + angleOffset, 0]]
+        var brick = ["brick", "wood", [v.x, v.y, v.z], [0, i / count + 1 / 4 + angleOffset, 0]]
         level.objs["brink" + (bCount++)] = brick
     }
 }
