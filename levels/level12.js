@@ -15,7 +15,7 @@ var level = {
         floorColor: [["pbr", {color:0xff00ff}], [0, 0.2, 0.2]],
         wood: [["pbr", {
             roughnessMap:"assets/Panel_Mahogany/Panel_Mahogany_Rou.jpg",
-            aoMap:"assets/Panel_Mahogany/Panel_Mahogany_AO.jpg",
+            aoMap:"assets/Panel_Mahogany/Panel_Mahogany_AO.jpg",/*  */
             normalMap:"assets/Panel_Mahogany/Panel_Mahogany_Nor.jpg",
             map: "assets/Panel_Mahogany/Panel_Mahogany_Alb.jpg"
         }], [0.5, 0.2, 0.2]],

@@ -28,7 +28,6 @@ module.exports = function (name, materialArgs) {//todo verify input
     }
     else if (materialArgs[0][0] == "pbr") {
         var renderMat = new THREE.MeshStandardMaterial(TextureFilter(materialArgs[0][1]));
-        console.log(materialArgs[0], renderMat)
     }
     else { throw "ERROR, THIS MATERIAL IS NOT IMPLEMENTED" }
 
@@ -37,13 +36,13 @@ module.exports = function (name, materialArgs) {//todo verify input
 }
 
 var TextureLib = {}//todo cache textures with matching names
-var mapTypes = ["map", "normalMap","aoMap","roughnessMap"]
+var mapTypes = ["map", "normalMap","aoMap","roughnessMap","displacementMap"]
 function TextureFilter(input) {
-    for (i of mapTypes) {
+    for (j in mapTypes) {
+        var i = mapTypes[j]
         if (input[i]) {
             input[i] = new THREE.TextureLoader().load(input[i]);
         }
     }
-    console.log("TEXTURE FILTER", input);
     return input
 }

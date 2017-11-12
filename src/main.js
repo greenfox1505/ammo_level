@@ -30,7 +30,7 @@ if (Params["level"]) {
     loadLevelScript(Params["level"])
 } else {
     loadLevelScript("levels/level11.js")
-} 
+}
 
 
 Math.TU = Math.PI * 2;
@@ -66,6 +66,7 @@ module.exports.Game = function (rawLevel) {
     var animate = function () {
         stats.begin();
         if (player) player.onFrame()
+        if (level.onFrame) level.onFrame();
         level.physicsTick(1 / 60);
 
 
@@ -76,7 +77,7 @@ module.exports.Game = function (rawLevel) {
     animate();
     var player = null;
     if (rawLevel.player) {
-        player = require("./Player.js")(level, camera, rawLevel.player);
+        player = require("./player/Player.js")(level, camera, rawLevel.player);
     }
 
 }

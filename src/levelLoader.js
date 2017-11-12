@@ -3,6 +3,7 @@ var CANNON = require("cannon")
 
 
 module.exports = function (interfaces, rawLevel) {
+    
     var scene = new THREE.Scene();
 
     var player = {};
@@ -23,6 +24,7 @@ module.exports = function (interfaces, rawLevel) {
         renderWorld: scene,
         phyWorld: new CANNON.World(),
         player: player,
+        interfaces:interfaces
     }
     level.phyWorld.gravity.set(rawLevel.world.grav[0], rawLevel.world.grav[1], rawLevel.world.grav[2]); // m/s²
 
@@ -40,7 +42,6 @@ module.exports = function (interfaces, rawLevel) {
         level.LightBuilder(lightName, rawLevel.lights[lightName])
     }
 
-    if (rawLevel.postLoad) { rawLevel.postLoad(level) };
 
     level.physicsTick = function (time) {
         //copy physics data to world data
@@ -56,7 +57,9 @@ module.exports = function (interfaces, rawLevel) {
             obj.quaternion.z = obj.phys.quaternion.z
         }
     }
-
-    console.log(level);
+    if (rawLevel.triggers) {
+        if (rawLevel.triggers.onFrame) { level.onFrame = rawLevel.triggers.onFrame;};
+        if (rawLevel.triggers.postLoad) { level.postLoad = rawLevel.triggers.postLoad; level.postLoad(); };
+    }
     return level;
 }
