@@ -10,7 +10,7 @@ function vThree2Cannon(threeVector) {
 
 //require("Player.js")(level,camera);
 module.exports = function Fly(level, camera, playerData) {
-    level.GeoBuilder("PlayerGeo", ["cube", 0.75, 2, 0.75]);
+    level.GeoBuilder("PlayerGeo", ["sphere", 0.75, 4, 2 ]);
     level.MatBuilder("PlayerMat", [["pbr", { color: 0xffffff }], { mass: 1, fric: 0, res: 0 }]);
     var pawn = playerData.pawn = level.ObjBuilder("PLAYER", ["PlayerGeo", "PlayerMat", playerData.starting.pos, [0, 0, 0]])
     pawn.castShadow = false;
