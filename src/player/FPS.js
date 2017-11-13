@@ -75,13 +75,13 @@ module.exports = function Fly(level, camera, playerData) {
         isCaptured = (document.pointerLockElement == domElement)
         if (document.pointerLockElement == domElement) {
             console.log('locked')
-            controlFrame.style.backgroundColor = "#0000"
+            controlFrame.style.backgroundColor = "rgba(0,0,0,0)"
             controlFrame.innerHTML = "<p>wasd plus spcae and c to move</p>";
             document.body.removeEventListener("click", MouseCapture);
         }
         else {
             console.log('unlocked')
-            controlFrame.style.backgroundColor = "#0008"
+            controlFrame.style.backgroundColor = "rgba(0,0,0,0.5)"
             controlFrame.innerHTML = "<h1>Click To Control</h1>"
             document.body.addEventListener("click", MouseCapture);
         }
