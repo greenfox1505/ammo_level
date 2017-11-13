@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "$(npm bin)/watchify src/main.js -o \"./bin.js\" -v --debug --standalone GameEngine",
-    "build": "$(npm bin)/browserify src/main.js -v --standalone GameEngine | $(npm bin)/uglifyjs > bin.js"
+    "build": "$(npm bin)/browserify src/main.js -v --standalone GameEngine | tee bin.js | $(npm bin)/uglifyjs > bin.min.js"
   },
   "author": "",
   "license": "ISC",
