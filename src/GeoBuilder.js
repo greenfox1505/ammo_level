@@ -2,7 +2,7 @@ var THREE = require("three")
 var CANNON = require("cannon")
 
 module.exports = function (name, geoArgs) {//todo verify input
-    if(this.geos[name]){
+    if (this.geos[name]) {
         throw ("GEOMETRY BY THIS NAME ALREADY EXISTS!:" + name)
     }
 
@@ -24,18 +24,15 @@ module.exports = function (name, geoArgs) {//todo verify input
             physics: new CANNON.Sphere(geoArgs[1])
         }
     }
-    else if (geoArgs[0] == "obj") {
-        var loader = new THREE.OBJLoader();
-        loader.load('models/monster.obj')
-
+    else if (geoArgs[0] == "cylinder") {
         output = {
-            render: new loader.load('models/monster.obj'),
-            physics: new CANNON.Sphere(geoArgs[1])
+            render: new THREE.CylinderGeometry(geoArgs[1], geoArgs[2], geoArgs[3], geoArgs[4]),
+            physics: new CANNON.Cylinder(geoArgs[1], geoArgs[2], geoArgs[3], geoArgs[4])
         }
     }
     else {
         throw "GEOMETRY NOT SUPPORTED!"
     }
     this.geos[name] = output;
-    return {name:name,geo:this.geos[name]};
+    return { name: name, geo: this.geos[name] };
 }    

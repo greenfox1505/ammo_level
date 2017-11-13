@@ -14,8 +14,8 @@ module.exports = function Fly(level, camera, playerData){
     var domElement =level.interfaces.renderer.domElement;
     var speed = {mouseSensitivity : 0.0025,moveSpeed:0.1}
     
-    camera.rotation.order = "YXZ"
     //wasd space c camera
+    camera.rotation.order = "YXZ"
     camera.position.x = playerData.starting.pos[0]
     camera.position.y = playerData.starting.pos[1]
     camera.position.z = playerData.starting.pos[2]
@@ -23,10 +23,10 @@ module.exports = function Fly(level, camera, playerData){
         var l = playerData.starting.lookAt;
         camera.lookAt(new THREE.Vector3(l[0], l[1], l[2]))
     }
-
     rotX = 0;
     rotY = 0;
     
+
     playerData.onFrame = function(){
         var move = new THREE.Vector3()
         if (keys.w) move.z -= 1;
@@ -41,13 +41,33 @@ module.exports = function Fly(level, camera, playerData){
         camera.position.add(move);
     }
 
-    //onclick capture camera, listen for wasdc
-    document.body.addEventListener("click",function(e){
-        console.log("asdf")
-        controlFrame.style.backgroundColor = "#0000"
-        controlFrame.innerHTML = "<p>wasd plus spcae and c to move</p>";
-        domElement.requestPointerLock();
+
+    //camera lock change, is locked, hide
+    //isunlocked, show
+
+    var isCaptured = (document.pointerLockElement == domElement)
+    document.addEventListener('pointerlockchange', function(e){
+        isCaptured = (document.pointerLockElement == domElement)
+        if(document.pointerLockElement == domElement){
+            console.log('locked')
+            controlFrame.style.backgroundColor = "#0000"
+            controlFrame.innerHTML = "<p>wasd plus spcae and c to move</p>";
+            document.body.removeEventListener("click",MouseCapture);
+        }
+        else{
+            console.log('unlocked')
+            controlFrame.style.backgroundColor = "#0008"
+            controlFrame.innerHTML ="<h1>Click To Control</h1>"
+            document.body.addEventListener("click",MouseCapture);
+        }
     })
+
+    //onclick capture camera, listen for wasdc
+    function MouseCapture(e){
+        domElement.requestPointerLock();
+    }
+
+    document.body.addEventListener("click",MouseCapture);
     domElement.addEventListener("mousemove",function(e){
         if(document.pointerLockElement === domElement){
             camera.rotation.y -= e.movementX*speed.mouseSensitivity;

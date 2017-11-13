@@ -36,10 +36,9 @@ module.exports = function (name, objectArgs) {
 
         return obj
     } catch (e) {
-        console.error("Error Loading Object(" + i + ")!");
+        throw ("Error Loading ", e);
         if (geo) { console.error("geo:", geo) }
 
-        throw ("Error Loading " + i, e);
 
     }
 
