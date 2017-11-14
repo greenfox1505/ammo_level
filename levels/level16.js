@@ -22,7 +22,7 @@ var level = {
     },
     lights: {
         amb: ["amb", { color: 0xffffff }],
-        point1: ["point", { color: 0xFFFFFF, pos: [-5, 5, -5], shadow: true }],
+        point1: ["point", { color: 0xFFFFFF, pos: [-5, 5, -5], shadow: true ,brightness:1}],
     },
     player: {
         starting: { pos: [-5, 5, -5], lookAt: [0, 0, 0] },
@@ -30,6 +30,7 @@ var level = {
     },
     triggers: {
         postLoad: function () {
+            
         },
         onFrame: function (t) {
             //console.log("Called onFrame",this)

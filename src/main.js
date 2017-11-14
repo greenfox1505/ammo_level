@@ -69,6 +69,9 @@ module.exports.Game = function (rawLevel) {
         if (level.onFrame) level.onFrame();
         level.physicsTick(1 / 60);
 
+        if(level.onFrame){
+            level.onFrame();
+        }
 
         threeData.renderer.render(level.renderWorld, camera);
         requestAnimationFrame(animate);

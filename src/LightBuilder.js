@@ -12,7 +12,9 @@ module.exports = function (name, lightArgs) {//todo verify input
     }
     else if(lightArgs[0] == "point"){
         var pos = lightArgs[1].pos
-        output = new THREE.PointLight( lightArgs[1].color, 1, 100 );
+        var brightness = 1;
+        if(lightArgs[1].brightness){brightness = lightArgs[1].brightness}
+        output = new THREE.PointLight( lightArgs[1].color, brightness, 100 );
         output.position.set(pos[0],pos[1],pos[2]);
         if(lightArgs[1].shadow){
             output.castShadow = true;

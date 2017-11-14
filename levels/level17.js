@@ -17,7 +17,7 @@ var level = {
     },
     mats: {//[COLOR,WEIGHT] todo, more complex physics and material properties
         floorColor: [["pbr", { color: 0xffffff }], [0, 0.2, 0.2]],
-        ballColor: [["basic", 0x411E8F], [100, brickFric, brickRis]],
+        ballColor: [["basic", 0xffffff], [100, brickFric, brickRis]],
         box0: [["pbr", { color: 0xffffff }], [1, brickFric, brickRis]],
         box1: [["pbr", { color: 0xffffff }], [1, brickFric, brickRis]],
         box2: [["pbr", { color: 0xffffff }], [1, brickFric, brickRis]],
@@ -31,22 +31,25 @@ var level = {
     },
     lights: {
         amb: ["amb", { color: 0x40464f }],
-        point1: ["point", { color: 0xff8888, pos: [-8, 8, 0], shadow: true }],
-        point2: ["point", { color: 0x88ff88, pos: [0, 8, -8], shadow: true }],
-        point3: ["point", { color: 0x8888ff, pos: [8, 8, 8], shadow: true }],
-        ballLight: ["point", { color: 0xffffff, pos: [0,0,0], shadow: true }],
+        point1: ["point", { color: 0xff8888, pos: [-8, 8, 0], shadow: true, brightness: 0.25 }],
+        point2: ["point", { color: 0x88ff88, pos: [0, 8, -8], shadow: true, brightness: 0.25 }],
+        point3: ["point", { color: 0x8888ff, pos: [8, 8, 8], shadow: true, brightness: 0.25 }],
+        ballLight: ["point", { color: 0xffffff, pos: [0, 0, 0], shadow: true, brightness: 1 }],
     },
     objs: {//todo add all kinds of new properties, 
         floor: ["floorGeo", "floorColor", [0, -0.75, 0], [0, 0, 0]],
         floor2: ["floorGeo", "floorColor", [-10, 9, 0], [0, 0, 1 / 4]],
         floor3: ["floorGeo", "floorColor", [0, 9, -10], [1 / 4, 0, 0]],
-        //floor3: ["floorGeo", "floorColor", [0, -0.75, 0], [0, 0, 0]],
-        ball: ["ballGeo", "ballColor", [25, 5, 0], [0, 0, 0], [-100, 0, 0]],
+        floor5: ["floorGeo", "floorColor", [10, 9, 0], [0, 0, 1 / 4]],
+        floor6: ["floorGeo", "floorColor", [0, 9, 10], [1 / 4, 0, 0]],
+        ball: ["ballGeo", "ballColor", [8, 5, 0], [0, 0, 0], [-50, 0, 0]],
     },
-    player: {
-        starting: { pos: [5, 5, 3], lookAt: [0, 0, 0] },
-        type: "Fly"
-    },
+    triggers: {
+        postLoad: function () {
+            var level = this;
+            level.objs.ball.add(level.lights.ballLight);
+        }
+    }
 }
 var ballCount = 0;
 var bCount = 0;
@@ -75,16 +78,5 @@ for (var i = 0; i < 20; i++) {
     layer(new THREE.Vector3(0, i / 2, 0), i % 2)
 }
 console.log(bCount + " BRICKS!")
-// var radius = 1.5;
-// var TU = Math.PI * 2
-// for(var i = 0 ; i < 128 ;i++){
-//     var layerAOffSet = (((i/8)|0)%4)*(1/16)
-//     var angle = i/8 + layerAOffSet
-//     var x = Math.sin(TU*angle)*radius
-//     var z = Math.cos(TU*angle)*radius
-//     var brick = ["brick","box"+(i%4),[x,.75+((i/8|0)*0.5),z],[0,angle,0]]
-//     console.log("box"+(i%3))
-//     level.objs["brick"+i] = brick;
-// }
 
-GameEngine.Game(JSON.parse(JSON.stringify(level)))
+GameEngine.Game(level)
