@@ -30,6 +30,12 @@ module.exports = function (name, geoArgs) {//todo verify input
             physics: new CANNON.Cylinder(geoArgs[1], geoArgs[2], geoArgs[3], geoArgs[4])
         }
     }
+    else if (geoArgs[0] == "cylinder") {
+        output = {
+            render: new THREE.CylinderGeometry(geoArgs[1], geoArgs[2], geoArgs[3], geoArgs[4]),
+            physics: new CANNON.Cylinder(geoArgs[1], geoArgs[2], geoArgs[3], geoArgs[4])
+        }
+    }
     else {
         throw "GEOMETRY NOT SUPPORTED!"
     }

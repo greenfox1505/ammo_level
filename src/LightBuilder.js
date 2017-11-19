@@ -8,7 +8,9 @@ module.exports = function (name, lightArgs) {//todo verify input
     var output;
 
     if(lightArgs[0] == "amb"){
-        var output = new THREE.AmbientLight(lightArgs[1].color);
+        var brightness = 1;
+        if(lightArgs[1].brightness){brightness = lightArgs[1].brightness}
+        var output = new THREE.AmbientLight(lightArgs[1].color,brightness);
     }
     else if(lightArgs[0] == "point"){
         var pos = lightArgs[1].pos

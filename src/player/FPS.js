@@ -10,11 +10,13 @@ function vThree2Cannon(threeVector) {
 
 //require("Player.js")(level,camera);
 module.exports = function Fly(level, camera, playerData) {
-    level.GeoBuilder("PlayerGeo", ["sphere", 0.75, 4, 2 ]);
-    level.MatBuilder("PlayerMat", [["pbr", { color: 0xffffff }], { mass: 1, fric: 0, res: 0 }]);
+    level.GeoBuilder("PlayerGeo", ["sphere", 0.50, 4, 2 ]);
+    console.log(level)
+    debugger;
+    level.MatBuilder("PlayerMat", [["pbr", { color: 0xffffff }], { mass: 0.01, fric: 0, res: 0 }]);
     var pawn = playerData.pawn = level.ObjBuilder("PLAYER", ["PlayerGeo", "PlayerMat", playerData.starting.pos, [0, 0, 0]])
     pawn.castShadow = false;
-    pawn.phys.angularDamping = 1;
+    //pawn.phys.angularDamping = 1;
     var movementData = {
         rotX: 0,
         rotY: 0,

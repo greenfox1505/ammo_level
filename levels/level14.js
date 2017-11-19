@@ -53,7 +53,7 @@ var level = {
         floatBall2: ["ball", "tileStatic", [6, 3, 6], [0, 0, 0]],
     },
     lights: {
-        amb: ["amb", { color: 0x40464f }],
+//        amb: ["amb", { color: 0x40464f }],
         point1: ["point", { color: 0xFF8888, pos: [0, 7, 5], shadow: true }],
         point2: ["point", { color: 0x88ff88, pos: [5, 7, 0], shadow: true }],
         point3: ["point", { color: 0x8888ff, pos: [-5, 7, -5], shadow: true }],

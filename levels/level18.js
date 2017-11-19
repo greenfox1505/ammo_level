@@ -12,6 +12,7 @@ var level = {
         cubeGeo: ["cube", s, s, s],
         ball: ["sphere", 2, 64, 32],
         floorGeo: ["cube", 100, 1, 100],
+        cylinder: ["cylinder", .5, .5, 1,16],
     },
     mats: {//[COLOR,WEIGHT] todo, more complex physics and material properties
         floorColor: [["pbr", { color: 0xffffff }], { mass: 0, fric: 0.9, res: 0.1 }],
@@ -41,6 +42,10 @@ var level = {
 var b = 0;
 for( var i = 0; i < 10; i++){
     level.objs["box" + b++] =  ["cubeGeo", "boxColor", [0, i+1, 0], [0, 0, 0]]
+    
+}
+for( var i = 0; i < 10; i++){
+    level.objs["box" + b++] =  ["cylinder", "boxColor", [0, i+1, -5], [0, 0, 0]]
     
 }
 for( var i = 0; i < 10; i++){
