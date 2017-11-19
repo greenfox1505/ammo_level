@@ -64,12 +64,14 @@ module.exports.Game = function (rawLevel) {
         }
     }
     var animate = function () {
+        console.log(debugBreak);
+        if(debugBreak == 1){debugBreak=-1; debugger}
         stats.begin();
         if (player) player.onFrame()
         if (level.onFrame) level.onFrame();
         level.physicsTick(1 / 60);
 
-        if(level.onFrame){
+        if (level.onFrame) {
             level.onFrame();
         }
 
@@ -84,4 +86,16 @@ module.exports.Game = function (rawLevel) {
     }
 
 }
+
+
+var debugBreak = 0;
+document.body.addEventListener("keydown", function (e) {
+    if (debugBreak == 0 && e.key == "p") {
+        debugBreak = 1;
+    }
+})
+document.body.addEventListener("keyup", function (e) {
+    debugBreak = 0;
+
+})
 

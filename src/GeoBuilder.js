@@ -29,12 +29,12 @@ module.exports = function (name, geoArgs) {//todo verify input
             render: new THREE.CylinderGeometry(geoArgs[1], geoArgs[2], geoArgs[3], geoArgs[4]),
             physics: new CANNON.Cylinder(geoArgs[1], geoArgs[2], geoArgs[3], geoArgs[4])
         }
-    }
-    else if (geoArgs[0] == "cylinder") {
-        output = {
-            render: new THREE.CylinderGeometry(geoArgs[1], geoArgs[2], geoArgs[3], geoArgs[4]),
-            physics: new CANNON.Cylinder(geoArgs[1], geoArgs[2], geoArgs[3], geoArgs[4])
-        }
+        //threejs and cannonjs cylinders are on different axis. So I gotta do this stupid thing
+        var quat = new CANNON.Quaternion();
+        quat.setFromAxisAngle(new CANNON.Vec3(1,0,0),-Math.PI/2);
+        var translation = new CANNON.Vec3(0,0,0);
+        output.physics.transformAllPoints(translation,quat);
+        
     }
     else {
         throw "GEOMETRY NOT SUPPORTED!"
