@@ -3,6 +3,7 @@
 var s = 1;
 
 var level = {
+    name:"Wonky Cylinders and Compound Shapes!",
     world: {
         grav: [0, -10, 0],
         background: 0x0,
