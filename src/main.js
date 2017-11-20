@@ -65,7 +65,6 @@ module.exports.Game = function (rawLevel) {
         }
     }
     var animate = function () {
-        console.log(debugBreak);
         if(debugBreak == 1){debugBreak=-1; debugger}
         stats.begin();
         if (player) player.onFrame()

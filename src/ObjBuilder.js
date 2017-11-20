@@ -34,6 +34,8 @@ module.exports = function (name, objectArgs) {
                 var dis = objectArgs[0][i][2];
 
                 var part = new THREE.Mesh(geo.render, mat.render)
+                part.castShadow = mat.render.castShadow;
+                part.receiveShadow = true;
                 part.position.x = dis[0];part.position.y = dis[1];part.position.z = dis[2];
                 obj.add(part);
                 obj.phys.addShape(geo.physics, new CANNON.Vec3(dis[0], dis[1], dis[2]))
@@ -44,6 +46,7 @@ module.exports = function (name, objectArgs) {
 
             this.phyWorld.addBody(obj.phys);
             this.renderWorld.add(obj);
+            return obj
 
         } else {
             var geo = this.geos[objectArgs[0]];
@@ -69,8 +72,8 @@ module.exports = function (name, objectArgs) {
             var rot = objectArgs[3]
             obj.phys.quaternion.setFromEuler(rot[0] * tau, rot[1] * tau, rot[2] * tau, "XYZ")
 
-            obj.castShadow = true;
-            obj.receiveShadow = true;
+            obj.castShadow = mat.render.castShadow;
+            obj.receiveShadow = mat.render.receiveShadow;
 
             this.phyWorld.addBody(obj.phys);
             this.renderWorld.add(obj);

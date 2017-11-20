@@ -10,16 +10,18 @@ function vThree2Cannon(threeVector) {
 
 //require("Player.js")(level,camera);
 module.exports = function Fly(level, camera, playerData) {
-    level.GeoBuilder("PlayerGeo", ["sphere", 0.50, 4, 2 ]);
+    level.GeoBuilder("PlayerGeo", ["sphere", 0.50, 32, 16]);
+    level.GeoBuilder("PlayerGeo2", ["cylinder", 0.50,0.50, 1, 16]);
     // debugger;
-    level.MatBuilder("PlayerMat", [["pbr", { color: 0xffffff }], { mass: 0.01, fric: 0, res: 0 }]);
-    var pawn = playerData.pawn = level.ObjBuilder("PLAYER", ["PlayerGeo", "PlayerMat", playerData.starting.pos, [0, 0, 0]])
-    pawn.castShadow = false;
+    level.MatBuilder("PlayerMat", [["basic", { color: 0xffffff }], { mass: 0.01, fric: 0, res: 0 }]);
+    var pawn = playerData.pawn = level.ObjBuilder("PLAYER", [[["PlayerGeo", "PlayerMat", [0, 0, 0]],["PlayerGeo2", "PlayerMat", [0, -0.5, 0]], ["PlayerGeo", "PlayerMat", [0, -1, 0]]], "PlayerMat", playerData.starting.pos, [0, 0, 0]])
+    pawn.visible = false;
     pawn.phys.angularDamping = 1;
     var movementData = {
         rotX: 0,
         rotY: 0,
-        ctrlVector: new THREE.Vector3()
+        ctrlVector: new THREE.Vector3(),
+        cameraIsThrid :false
     }
     var speed = { mouseSensitivity: 0.0025, moveSpeed: 3 }
 
@@ -33,10 +35,10 @@ module.exports = function Fly(level, camera, playerData) {
 
 
 
-
     playerData.onFrame = function (deltaTime) {
         //instead of applying this to a camera, we're goiing to apply this as a force to a player pawn
 
+        // pawn.phys.quaternion.x = pawn.phys.quaternion.y = pawn.phys.quaternion.z = 0; pawn.phys.quaternion.w = 1;
         var move = new THREE.Vector3()
         if (keys.w) move.z -= 1;
         if (keys.s) move.z += 1;
@@ -56,7 +58,26 @@ module.exports = function Fly(level, camera, playerData) {
         camera.rotation.x = movementData.rotX
         camera.rotation.y = movementData.rotY
         camera.rotation.z = 0;
+        if(movementData.cameraIsThrid){
+            camera.position.x = camera.position.y = camera.position.z = 1;
+            camera.lookAt(vCannon2Three(pawn.phys.position))
+        }
     }
+
+    var contactNormal = new CANNON.Vec3();
+    var upAxis = new CANNON.Vec3(0, 1, 0);
+    pawn.phys.addEventListener("collide", function (e) {
+        var contact = e.contact;
+
+        if (contact.bi.id == pawn.phys.id)
+            contact.ni.negate(contactNormal);
+        else
+            contactNormal.copy(contact.ni);
+
+        if (contactNormal.dot(upAxis) > 0.5)
+            movementData.canJump = true;
+        console.log("Hello Contact", e);
+    });
 
 
 
@@ -92,6 +113,21 @@ module.exports = function Fly(level, camera, playerData) {
     function MouseCapture(e) {
         domElement.requestPointerLock();
     }
+
+    domElement.addEventListener("mousedown", function (e) {
+        console.log("DOM CLICK", e.button)
+        if(e.button == 2){
+            movementData.cameraIsThrid = true
+            pawn.visible = true;
+        }
+    })
+    domElement.addEventListener("mouseup", function (e) {
+        console.log("DOM CLICK", e.button)
+        if(e.button == 2){
+            movementData.cameraIsThrid = false;
+            pawn.visible = false;
+        }
+    })
 
     document.body.addEventListener("click", MouseCapture);
     domElement.addEventListener("mousemove", function (e) {

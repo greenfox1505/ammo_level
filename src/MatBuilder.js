@@ -16,6 +16,7 @@ module.exports = function (name, materialArgs) {//todo verify input
             }
         }
     }
+    
     var cannonMat = new CANNON.Material();
     cannonMat.friction = physicData.friction;
     cannonMat.restitution = physicData.restitution;
@@ -30,7 +31,15 @@ module.exports = function (name, materialArgs) {//todo verify input
         var renderMat = new THREE.MeshStandardMaterial(TextureFilter(materialArgs[0][1]));
     }
     else { throw "ERROR, THIS MATERIAL IS NOT IMPLEMENTED" }
-
+    renderMat.castShadow = true;
+    if(materialArgs[0][1].castShadow != null){
+        renderMat.castShadow = materialArgs[0][1].castShadow;
+    }
+    renderMat.receiveShadow = true;
+    if(materialArgs[0][1].receiveShadow != null){
+        renderMat.receiveShadow = materialArgs[0][1].receiveShadow;
+    }
+    
     this.mats[name] = { render: renderMat, physics: cannonMat }
     return this.mats[name];
 }
