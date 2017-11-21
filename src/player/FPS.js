@@ -8,20 +8,23 @@ function vThree2Cannon(threeVector) {
     return new CANNON.Vec3(threeVector.x, threeVector.y, threeVector.z)
 }
 
+var xAxis = new THREE.Vector3(1, 0, 0)
+var yAxis = new THREE.Vector3(0, 1, 0)
+
 //require("Player.js")(level,camera);
 module.exports = function Fly(level, camera, playerData) {
     level.GeoBuilder("PlayerGeo", ["sphere", 0.50, 32, 16]);
-    level.GeoBuilder("PlayerGeo2", ["cylinder", 0.50,0.50, 1, 16]);
+    level.GeoBuilder("PlayerGeo2", ["cylinder", 0.50, 0.50, 1, 16]);
     // debugger;
     level.MatBuilder("PlayerMat", [["basic", { color: 0xffffff }], { mass: 0.01, fric: 0, res: 0 }]);
-    var pawn = playerData.pawn = level.ObjBuilder("PLAYER", [[["PlayerGeo", "PlayerMat", [0, 0, 0]],["PlayerGeo2", "PlayerMat", [0, -0.5, 0]], ["PlayerGeo", "PlayerMat", [0, -1, 0]]], "PlayerMat", playerData.starting.pos, [0, 0, 0]])
+    var pawn = playerData.pawn = level.ObjBuilder("PLAYER", [[["PlayerGeo", "PlayerMat", [0, 0, 0]], ["PlayerGeo2", "PlayerMat", [0, -0.5, 0]], ["PlayerGeo", "PlayerMat", [0, -1, 0]]], "PlayerMat", playerData.starting.pos, [0, 0, 0]])
     pawn.visible = false;
     pawn.phys.angularDamping = 1;
     var movementData = {
         rotX: 0,
         rotY: 0,
         ctrlVector: new THREE.Vector3(),
-        cameraIsThrid :false
+        cameraIsThrid: false
     }
     var speed = { mouseSensitivity: 0.0025, moveSpeed: 3 }
 
@@ -46,11 +49,11 @@ module.exports = function Fly(level, camera, playerData) {
         if (keys.d) move.x += 1;
         move.normalize();
         move.multiplyScalar(speed.moveSpeed);
-        move.applyAxisAngle(new THREE.Vector3(0, 1, 0), movementData.rotY)
+        move.applyAxisAngle(yAxis, movementData.rotY)
         var phyVect = vThree2Cannon(move)
         pawn.phys.velocity.x = phyVect.x
         pawn.phys.velocity.z = phyVect.z
-        if(movementData.canJump && keys[" "]){
+        if (movementData.canJump && keys[" "]) {
             movementData.canJump = false;
             pawn.phys.velocity.y = 5;
         }
@@ -62,7 +65,7 @@ module.exports = function Fly(level, camera, playerData) {
         camera.rotation.x = movementData.rotX
         camera.rotation.y = movementData.rotY
         camera.rotation.z = 0;
-        if(movementData.cameraIsThrid){
+        if (movementData.cameraIsThrid) {
             camera.position.x = camera.position.y = camera.position.z = 1;
             camera.lookAt(vCannon2Three(pawn.phys.position))
         }
@@ -80,6 +83,7 @@ module.exports = function Fly(level, camera, playerData) {
 
         if (contactNormal.dot(upAxis) > 0.5)
             movementData.canJump = true;
+        else movementData.canJump = false;
     });
 
 
@@ -101,15 +105,15 @@ module.exports = function Fly(level, camera, playerData) {
         if (document.pointerLockElement == domElement) {
             console.log('locked')
             controlFrame.style.backgroundColor = "rgba(0,0,0,0)"
-            controlFrame.innerHTML = "<p>wasd plus spcae and c to move</p>";
+            controlFrame.innerHTML = "<p>wasd to move, space to jump</p>";
             document.body.removeEventListener("click", MouseCapture);
         }
         else {
             console.log('unlocked')
             controlFrame.style.backgroundColor = "rgba(0,0,0,0.5)"
             controlFrame.innerHTML = "<h1>Click To Control</h1>"
-            document.body.addEventListener("click", MouseCapture);
         }
+        document.body.addEventListener("click", MouseCapture);
     })
 
     //onclick capture camera, listen for wasdc
@@ -117,16 +121,29 @@ module.exports = function Fly(level, camera, playerData) {
         domElement.requestPointerLock();
     }
 
+    var raycaster = new THREE.Raycaster();
+
     domElement.addEventListener("mousedown", function (e) {
         console.log("DOM CLICK", e.button)
-        if(e.button == 2){
+        if (e.button == 0) {
+            raycaster.setFromCamera(new THREE.Vector2(0,0),camera)
+            var intersects = raycaster.intersectObjects(level.renderWorld.children);
+
+            intersects[0].object.phys.velocity.y += 5;
+
+            console.log({raycaster:raycaster,intersects:intersects})
+            
+        }
+
+        if (e.button == 2) {
             movementData.cameraIsThrid = true
             pawn.visible = true;
         }
     })
     domElement.addEventListener("mouseup", function (e) {
         console.log("DOM CLICK", e.button)
-        if(e.button == 2){
+
+        if (e.button == 2) {
             movementData.cameraIsThrid = false;
             pawn.visible = false;
         }

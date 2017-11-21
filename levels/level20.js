@@ -23,25 +23,25 @@ var level = {
         blue: [["pbr", {
             color: 0x0000ff,
             normalMap: "assets/Asphalt_New/Asphalt_New_Nor.jpg",
-            metalness:0.5,
-            roughness:0.25,
-            castShadow: false, 
+            metalness: 0.5,
+            roughness: 0.25,
+            castShadow: false,
             transparent: true, opacity: opacity
         }], { mass: 10, fric: 0.9, res: 0.1 }],
         red: [["pbr", {
             color: 0xff0000,
-            normalMap: "https://80lv-cdn.akamaized.net/80.lv/uploads/2017/05/Ice_Substance_BaseNormal.jpg", 
-            metalness:0.5,
-            roughness:0.25,
-            castShadow: false, 
+            normalMap: "https://80lv-cdn.akamaized.net/80.lv/uploads/2017/05/Ice_Substance_BaseNormal.jpg",
+            metalness: 0.5,
+            roughness: 0.25,
+            castShadow: false,
             transparent: true, opacity: opacity
         }], { mass: 10, fric: 0.9, res: 0.1 }],
         green: [["pbr", {
             color: 0x00ff00,
             normalMap: "https://i.imgur.com/kqWpifZ.jpg",
-            metalness:0.5,
-            roughness:0.25,
-            castShadow: false, 
+            metalness: 0.5,
+            roughness: 0.25,
+            castShadow: false,
             transparent: true, opacity: opacity
         }], { mass: 10, fric: 0.9, res: 0.1 }],
     },
@@ -59,11 +59,15 @@ var level = {
         box1: ["cubeGeo", "blue", [0, 1, 0], [0, 0, 0]],
         box2: ["cubeGeo", "red", [.6, 2, 0], [0, 0, 0]],
         box3: ["cubeGeo", "green", [0, 3, 0], [0, 0, 0]],
-        
+
     },
     lights: {
         amb: ["amb", { color: 0xffffff, brightness: 0.75 }],
-        point1: ["point", { color: 0xFFFFFF, pos: [-5, 5, -5], shadow: true, brightness: 1 }],
+        overhead: ["point", { color: 0xFFFFFF, pos: [0,20,0],shadow:true, brightness: 0.5 }],
+        point0: ["point", { color: 0xFFFFFF, pos: [-10, 5, -10], brightness: 0.25 }],
+        point1: ["point", { color: 0xFFFFFF, pos: [10, 5, -10], brightness: 0.25 }],
+        point2: ["point", { color: 0xFFFFFF, pos: [10, 5, 10], brightness: 0.25 }],
+        point3: ["point", { color: 0xFFFFFF, pos: [-10, 5, 10], brightness: 0.25 }],
     },
     player: {
         starting: { pos: [2, 2, 2], lookAt: [0, 0, 0] },

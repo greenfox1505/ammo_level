@@ -20,8 +20,8 @@ module.exports = function (name, lightArgs) {//todo verify input
         output.position.set(pos[0],pos[1],pos[2]);
         if(lightArgs[1].shadow){
             output.castShadow = true;
-            output.shadow.mapSize.width = 512;  // default
-            output.shadow.mapSize.height = 512; // default
+            output.shadow.mapSize.width = 256;  // default
+            output.shadow.mapSize.height = 256; // default
             output.shadow.camera.near = 1;       // default
             output.shadow.camera.far = 500  
         }
