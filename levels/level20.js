@@ -4,7 +4,7 @@
 var s = 1;
 
 var level = {
-    name: "Wonky Cylinders and Compound Shapes!",
+    name: "The Padded Platform!",
     world: {
         grav: [0, -10, 0],
         background: 0x0,
@@ -18,8 +18,23 @@ var level = {
     },
     mats: {//[COLOR,WEIGHT] todo, more complex physics and material properties
         floorColor: [["pbr", { color: 0xffffff }], { mass: 0, fric: 0.9, res: 0.1 }],
-        wallColor: [["pbr", { normalMap: "assets/cush/normal.png"}], { mass: 0, fric: 0.9, res: 0.1 }],
-        blue: [["pbr", { color:0x0000ff, normalMap: "assets/Asphalt_New/Asphalt_New_Nor.jpg",castShadow:false,transparent: true, opacity: 0.75}], { mass: 10, fric: 0.9, res: 0.1 }],
+        wallColor: [["pbr", { normalMap: "assets/cush/normal.png" }], { mass: 0, fric: 0.9, res: 0.1 }],
+        blue: [["pbr", {
+            color: 0x0000ff,
+            normalMap: "assets/Asphalt_New/Asphalt_New_Nor.jpg", 
+            metalness:0.5,
+            roughness:0.25,
+            castShadow: false, 
+            transparent: true, opacity: 0.75
+        }], { mass: 10, fric: 0.9, res: 0.1 }],
+        red: [["pbr", {
+            color: 0xff0000,
+            normalMap: "assets/Asphalt_New/Asphalt_New_Nor.jpg", 
+            metalness:0.5,
+            roughness:0.25,
+            castShadow: false, 
+            transparent: true, opacity: 0.75
+        }], { mass: 10, fric: 0.9, res: 0.1 }],
     },
     objs: {//todo add all kinds of new properties, 
         door: [[
@@ -32,7 +47,8 @@ var level = {
             ["cubeGeo", "wallColor", [-1, 0, 0]],
         ], "floorColor", [0, 1, 5], [0, 0, 0]],
 
-        box1:["cubeGeo", "blue", [0, 5, 0],[0,0,0]],
+        box1: ["cubeGeo", "blue", [0, 1, 0], [0, 0, 0]],
+        box2: ["cubeGeo", "red", [.6, 2, 0], [0, 0, 0]],
         
     },
     lights: {
@@ -40,7 +56,7 @@ var level = {
         point1: ["point", { color: 0xFFFFFF, pos: [-5, 5, -5], shadow: true, brightness: 1 }],
     },
     player: {
-        starting: { pos: [-5, 5, -5], lookAt: [0, 0, 0] },
+        starting: { pos: [2, 2, 2], lookAt: [0, 0, 0] },
         type: "FPS"
     },
     triggers: {
@@ -53,15 +69,15 @@ var level = {
     }
 }
 
-platform = [[], "wallColor", [-5,0,-5], [0, 0, 0]]
-platform2 = [[], "wallColor", [1,0,-5], [0, 0, 0]]
+platform = [[], "wallColor", [-5, 0, -5], [0, 0, 0]]
+platform2 = [[], "wallColor", [1, 0, -5], [0, 0, 0]]
 platform2[0] = platform[0]
 var n = 25
-for(var i = 0; i < (n*n); i++){
-    x= (i/n)|0
-    z= (i%n)
-    var element = ["cubeGeo", "wallColor", [x - ((n/2)|0), 0, z -((n/2)|0)]]
-    platform[0].push( element);
+for (var i = 0; i < (n * n); i++) {
+    x = (i / n) | 0
+    z = (i % n)
+    var element = ["cubeGeo", "wallColor", [x - ((n / 2) | 0), 0, z - ((n / 2) | 0)]]
+    platform[0].push(element);
 }
 
 level.objs.platform = platform;
