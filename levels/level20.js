@@ -3,6 +3,7 @@
 //a pure-data level. to be processed later!
 var s = 1;
 
+var opacity = 0.5
 var level = {
     name: "The Padded Platform!",
     world: {
@@ -21,19 +22,27 @@ var level = {
         wallColor: [["pbr", { normalMap: "assets/cush/normal.png" }], { mass: 0, fric: 0.9, res: 0.1 }],
         blue: [["pbr", {
             color: 0x0000ff,
-            normalMap: "assets/Asphalt_New/Asphalt_New_Nor.jpg", 
+            normalMap: "assets/Asphalt_New/Asphalt_New_Nor.jpg",
             metalness:0.5,
             roughness:0.25,
             castShadow: false, 
-            transparent: true, opacity: 0.75
+            transparent: true, opacity: opacity
         }], { mass: 10, fric: 0.9, res: 0.1 }],
         red: [["pbr", {
             color: 0xff0000,
-            normalMap: "assets/Asphalt_New/Asphalt_New_Nor.jpg", 
+            normalMap: "https://80lv-cdn.akamaized.net/80.lv/uploads/2017/05/Ice_Substance_BaseNormal.jpg", 
             metalness:0.5,
             roughness:0.25,
             castShadow: false, 
-            transparent: true, opacity: 0.75
+            transparent: true, opacity: opacity
+        }], { mass: 10, fric: 0.9, res: 0.1 }],
+        green: [["pbr", {
+            color: 0x00ff00,
+            normalMap: "https://i.imgur.com/kqWpifZ.jpg",
+            metalness:0.5,
+            roughness:0.25,
+            castShadow: false, 
+            transparent: true, opacity: opacity
         }], { mass: 10, fric: 0.9, res: 0.1 }],
     },
     objs: {//todo add all kinds of new properties, 
@@ -49,6 +58,7 @@ var level = {
 
         box1: ["cubeGeo", "blue", [0, 1, 0], [0, 0, 0]],
         box2: ["cubeGeo", "red", [.6, 2, 0], [0, 0, 0]],
+        box3: ["cubeGeo", "green", [0, 3, 0], [0, 0, 0]],
         
     },
     lights: {
