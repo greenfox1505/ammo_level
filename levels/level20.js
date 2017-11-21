@@ -29,28 +29,30 @@ var level = {
             transparent: true, opacity: opacity
         }], { mass: 10, fric: 0.9, res: 0.1 }],
         wood0: [["pbr", {
-            map:"assets/Panel_Mahogany/Panel_Mahogany_Alb.jpg",
+            map: "assets/Panel_Mahogany/Panel_Mahogany_Alb.jpg",
             normalMap: "assets/Panel_Mahogany/Panel_Mahogany_Nor.jpg",
-            aoMap:"assets/Panel_Mahogany/Panel_Mahogany_AO.jpg",
-            roughnessMap:"assets/Panel_Mahogany/Panel_Mahogany_Rou.jpg",
+            aoMap: "assets/Panel_Mahogany/Panel_Mahogany_AO.jpg",
+            roughnessMap: "assets/Panel_Mahogany/Panel_Mahogany_Rou.jpg",
             metalness: 0.0,
             castShadow: true,
         }], { mass: 10, fric: 0.9, res: 0.1 }],
         wood1: [["pbr", {
-            map:"assets/Panel_Mahogany/Panel_Mahogany_Alb.jpg",
+            map: "assets/Panel_Mahogany/Panel_Mahogany_Alb.jpg",
             normalMap: "assets/Panel_Mahogany/Panel_Mahogany_Nor.jpg",
-            aoMap:"assets/Panel_Mahogany/Panel_Mahogany_AO.jpg",
-            roughnessMap:"assets/Panel_Mahogany/Panel_Mahogany_Rou.jpg",
+            aoMap: "assets/Panel_Mahogany/Panel_Mahogany_AO.jpg",
+            roughnessMap: "assets/Panel_Mahogany/Panel_Mahogany_Rou.jpg",
             metalness: 0.5,
             castShadow: true,
+            envMap: true
         }], { mass: 10, fric: 0.9, res: 0.1 }],
         wood2: [["pbr", {
-            map:"assets/Panel_Mahogany/Panel_Mahogany_Alb.jpg",
+            map: "assets/Panel_Mahogany/Panel_Mahogany_Alb.jpg",
             normalMap: "assets/Panel_Mahogany/Panel_Mahogany_Nor.jpg",
-            aoMap:"assets/Panel_Mahogany/Panel_Mahogany_AO.jpg",
-            roughnessMap:"assets/Panel_Mahogany/Panel_Mahogany_Rou.jpg",
+            aoMap: "assets/Panel_Mahogany/Panel_Mahogany_AO.jpg",
+            roughnessMap: "assets/Panel_Mahogany/Panel_Mahogany_Rou.jpg",
             metalness: 1,
             castShadow: true,
+            envMap: true
         }], { mass: 10, fric: 0.9, res: 0.1 }],
         red: [["pbr", {
             color: 0xff0000,
@@ -90,7 +92,7 @@ var level = {
     },
     lights: {
         amb: ["amb", { color: 0xffffff, brightness: 0.75 }],
-        overhead: ["point", { color: 0xFFFFFF, pos: [0,10,0],shadow:true, brightness: 0.5 }],
+        overhead: ["point", { color: 0xFFFFFF, pos: [0, 10, 0], shadow: true, brightness: 0.5 }],
         point0: ["point", { color: 0xFFFFFF, pos: [-10, 5, -10], brightness: 0.25 }],
         point1: ["point", { color: 0xFFFFFF, pos: [10, 5, -10], brightness: 0.25 }],
         point2: ["point", { color: 0xFFFFFF, pos: [10, 5, 10], brightness: 0.25 }],
@@ -102,9 +104,14 @@ var level = {
     },
     triggers: {
         postLoad: function () {
-
         },
         onFrame: function (t) {
+            this.mats.wood1.render.envCamera.position.copy(this.objs.crate1.position)
+            this.mats.wood2.render.envCamera.position.copy(this.objs.crate2.position)
+            this.mats.wood1.render.envCamera.update( this.interfaces.renderer, this.renderWorld );
+            this.mats.wood2.render.envCamera.update( this.interfaces.renderer, this.renderWorld );
+
+
             //console.log("Called onFrame",this)
         }
     }

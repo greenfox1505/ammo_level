@@ -38,7 +38,8 @@ Math.TU = Math.PI * 2;
 module.exports.Game = function (rawLevel) {
     if(rawLevel.name){document.title = rawLevel.name}
     level = module.exports.level = require("./levelLoader.js")(threeData, rawLevel);
-    var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    // var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    var camera = threeData.camera;
     {
         var camData = rawLevel.world.camera;
         if (Array.isArray(camData)) {
