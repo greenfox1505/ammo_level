@@ -131,6 +131,7 @@ module.exports = function Fly(level, camera, playerData) {
 
     document.body.addEventListener("click", MouseCapture);
     domElement.addEventListener("mousemove", function (e) {
+        console.log(e.movementX);
         if (document.pointerLockElement === domElement) {
             movementData.rotY -= e.movementX * speed.mouseSensitivity;
             movementData.rotX -= e.movementY * speed.mouseSensitivity;
