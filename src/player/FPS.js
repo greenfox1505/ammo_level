@@ -50,6 +50,10 @@ module.exports = function Fly(level, camera, playerData) {
         var phyVect = vThree2Cannon(move)
         pawn.phys.velocity.x = phyVect.x
         pawn.phys.velocity.z = phyVect.z
+        if(movementData.canJump && keys[" "]){
+            movementData.canJump = false;
+            pawn.phys.velocity.y = 5;
+        }
 
         camera.position.x = pawn.phys.position.x
         camera.position.y = pawn.phys.position.y
@@ -76,7 +80,6 @@ module.exports = function Fly(level, camera, playerData) {
 
         if (contactNormal.dot(upAxis) > 0.5)
             movementData.canJump = true;
-        console.log("Hello Contact", e);
     });
 
 
