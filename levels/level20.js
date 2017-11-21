@@ -28,6 +28,30 @@ var level = {
             castShadow: false,
             transparent: true, opacity: opacity
         }], { mass: 10, fric: 0.9, res: 0.1 }],
+        wood0: [["pbr", {
+            map:"assets/Panel_Mahogany/Panel_Mahogany_Alb.jpg",
+            normalMap: "assets/Panel_Mahogany/Panel_Mahogany_Nor.jpg",
+            aoMap:"assets/Panel_Mahogany/Panel_Mahogany_AO.jpg",
+            roughnessMap:"assets/Panel_Mahogany/Panel_Mahogany_Rou.jpg",
+            metalness: 0.0,
+            castShadow: true,
+        }], { mass: 10, fric: 0.9, res: 0.1 }],
+        wood1: [["pbr", {
+            map:"assets/Panel_Mahogany/Panel_Mahogany_Alb.jpg",
+            normalMap: "assets/Panel_Mahogany/Panel_Mahogany_Nor.jpg",
+            aoMap:"assets/Panel_Mahogany/Panel_Mahogany_AO.jpg",
+            roughnessMap:"assets/Panel_Mahogany/Panel_Mahogany_Rou.jpg",
+            metalness: 0.5,
+            castShadow: true,
+        }], { mass: 10, fric: 0.9, res: 0.1 }],
+        wood2: [["pbr", {
+            map:"assets/Panel_Mahogany/Panel_Mahogany_Alb.jpg",
+            normalMap: "assets/Panel_Mahogany/Panel_Mahogany_Nor.jpg",
+            aoMap:"assets/Panel_Mahogany/Panel_Mahogany_AO.jpg",
+            roughnessMap:"assets/Panel_Mahogany/Panel_Mahogany_Rou.jpg",
+            metalness: 1,
+            castShadow: true,
+        }], { mass: 10, fric: 0.9, res: 0.1 }],
         red: [["pbr", {
             color: 0xff0000,
             normalMap: "https://80lv-cdn.akamaized.net/80.lv/uploads/2017/05/Ice_Substance_BaseNormal.jpg",
@@ -56,6 +80,9 @@ var level = {
             ["cubeGeo", "wallColor", [-1, 0, 0]],
         ], "floorColor", [0, 1, 5], [0, 0, 0]],
 
+        crate0: ["cubeGeo", "wood0", [3, 1, 0], [0, 0, 0]],
+        crate1: ["cubeGeo", "wood1", [4, 1, 0], [0, 0, 0]],
+        crate2: ["cubeGeo", "wood2", [5, 1, 0], [0, 0, 0]],
         box1: ["cubeGeo", "blue", [0, 1, 0], [0, 0, 0]],
         box2: ["cubeGeo", "red", [.6, 2, 0], [0, 0, 0]],
         box3: ["cubeGeo", "green", [0, 3, 0], [0, 0, 0]],
@@ -63,7 +90,7 @@ var level = {
     },
     lights: {
         amb: ["amb", { color: 0xffffff, brightness: 0.75 }],
-        overhead: ["point", { color: 0xFFFFFF, pos: [0,20,0],shadow:true, brightness: 0.5 }],
+        overhead: ["point", { color: 0xFFFFFF, pos: [0,10,0],shadow:true, brightness: 0.5 }],
         point0: ["point", { color: 0xFFFFFF, pos: [-10, 5, -10], brightness: 0.25 }],
         point1: ["point", { color: 0xFFFFFF, pos: [10, 5, -10], brightness: 0.25 }],
         point2: ["point", { color: 0xFFFFFF, pos: [10, 5, 10], brightness: 0.25 }],

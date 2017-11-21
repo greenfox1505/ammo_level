@@ -69,6 +69,9 @@ module.exports = function Fly(level, camera, playerData) {
             camera.position.x = camera.position.y = camera.position.z = 1;
             camera.lookAt(vCannon2Three(pawn.phys.position))
         }
+
+        //move hinge object
+
     }
 
     var contactNormal = new CANNON.Vec3();
@@ -122,10 +125,12 @@ module.exports = function Fly(level, camera, playerData) {
     }
 
     var raycaster = new THREE.Raycaster();
+    raycaster.far = 5;
 
     domElement.addEventListener("mousedown", function (e) {
         console.log("DOM CLICK", e.button)
         if (e.button == 0) {
+            //pick up object
             raycaster.setFromCamera(new THREE.Vector2(0,0),camera)
             var intersects = raycaster.intersectObjects(level.renderWorld.children);
 
@@ -142,7 +147,9 @@ module.exports = function Fly(level, camera, playerData) {
     })
     domElement.addEventListener("mouseup", function (e) {
         console.log("DOM CLICK", e.button)
-
+        if (e.button == 0) {
+            //put down object
+        }
         if (e.button == 2) {
             movementData.cameraIsThrid = false;
             pawn.visible = false;
