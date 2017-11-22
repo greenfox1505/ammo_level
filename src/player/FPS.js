@@ -130,34 +130,48 @@ module.exports = function Fly(level, camera, playerData) {
     var raycaster = new THREE.Raycaster();
     raycaster.far = 5;
 
+    var PushVector = new THREE.Vector3();
+
     domElement.addEventListener("mousedown", function (e) {
         console.log("DOM CLICK", e.button)
-        if (e.button == 0) {
-            //pick up object
+        if (e.button == 0 || e.button == 2) {
             raycaster.setFromCamera(new THREE.Vector2(0, 0), camera)
             var intersects = raycaster.intersectObjects(level.renderWorld.children, true);
+            // debugger
 
+            console.log(intersects[0].point)
             if (movementData.restingOn != intersects[0].object.phys.id && intersects[0].object.phys.material.mass != 0) {
-                intersects[0].object.phys.velocity.y += 5;
+                PushVector.copy(intersects[0].point);
+                PushVector.sub(camera.position);
+                if (e.button == 0) {
+                    PushVector.normalize().multiplyScalar(10);
+                }
+                else {
+                    PushVector.normalize().multiplyScalar(-10);
+                }
+
+                intersects[0].object.phys.velocity.x = PushVector.x;
+                intersects[0].object.phys.velocity.y = PushVector.y;
+                intersects[0].object.phys.velocity.z = PushVector.z;
             }
             console.log({ raycaster: raycaster, intersects: intersects[0].object.phys.id })
 
         }
 
-        if (e.button == 2) {
-            movementData.cameraIsThrid = true
-            pawn.visible = true;
-        }
+        // if (e.button == 2) {
+        //     movementData.cameraIsThrid = true
+        //     pawn.visible = true;
+        // }
     })
     domElement.addEventListener("mouseup", function (e) {
         console.log("DOM CLICK", e.button)
-        if (e.button == 0) {
-            //put down object
-        }
-        if (e.button == 2) {
-            movementData.cameraIsThrid = false;
-            pawn.visible = false;
-        }
+        // if (e.button == 0) {
+        //     //put down object
+        // }
+        // if (e.button == 2) {
+        //     movementData.cameraIsThrid = false;
+        //     pawn.visible = false;
+        // }
     })
 
     document.body.addEventListener("click", MouseCapture);
