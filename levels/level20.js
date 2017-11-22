@@ -13,8 +13,9 @@ var level = {
     },
     geos: {//cube and sphere gemoties are supports for MVP
         cubeGeo: ["cube", s, s, s],
-        ball: ["sphere", 2, 64, 32],
+        ball: ["sphere", 1, 64, 32],
         floorGeo: ["cube", 100, 1, 100],
+        wallGeo: ["cube", 3, 1, 100],
         cylinder: ["cylinder", .5, 0.25, 1, 32],
     },
     mats: {//[COLOR,WEIGHT] todo, more complex physics and material properties
@@ -34,6 +35,7 @@ var level = {
             normalMap: "assets/rustyIron/normal.png",
             roughnessMap: "assets/rustyIron/roughness.png",
             metalnessMap:"assets/rustyIron/metallic.png",
+            // metalness:100000,
             castShadow: true,
             envMap: true
         }], { mass: 10, fric: 0.9, res: 0.1 }],

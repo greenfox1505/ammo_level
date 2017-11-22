@@ -25,7 +25,8 @@ module.exports = function Fly(level, camera, playerData) {
         rotY: 0,
         ctrlVector: new THREE.Vector3(),
         cameraIsThrid: false,
-        restingOn: {}
+        restingOn: {},
+        reach:100
     }
     var speed = { mouseSensitivity: 0.0025, moveSpeed: 3 }
 
@@ -111,7 +112,7 @@ module.exports = function Fly(level, camera, playerData) {
         if (document.pointerLockElement == domElement) {
             console.log('locked')
             controlFrame.style.backgroundColor = "rgba(0,0,0,0)"
-            controlFrame.innerHTML = "<p>wasd to move, space to jump</p>";
+            controlFrame.innerHTML = "<div id='instructions'><h2>wasd to move, space to jump, left click to push, right click to hit yourself in the face</h2><p>cross hairs? who needs crosshairs?</p></div>";
             document.body.removeEventListener("click", MouseCapture);
         }
         else {
@@ -128,7 +129,7 @@ module.exports = function Fly(level, camera, playerData) {
     }
 
     var raycaster = new THREE.Raycaster();
-    raycaster.far = 5;
+    raycaster.far = movementData.reach;
 
     var PushVector = new THREE.Vector3();
 
@@ -147,7 +148,7 @@ module.exports = function Fly(level, camera, playerData) {
                     PushVector.normalize().multiplyScalar(10);
                 }
                 else {
-                    PushVector.normalize().multiplyScalar(-10);
+                PushVector.normalize().multiplyScalar(-10);
                 }
 
                 intersects[0].object.phys.velocity.x = PushVector.x;

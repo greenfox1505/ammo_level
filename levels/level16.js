@@ -11,8 +11,8 @@ var level = {
     geos: {//cube and sphere gemoties are supports for MVP
         cubeGeo: ["cube", s, s, s],
         ball: ["sphere", 2, 64, 32],
-        floorGeo: ["cube", 100, 1, 100],
     },
+    floorGeo: ["cube", 100, 1, 100],
     mats: {//[COLOR,WEIGHT] todo, more complex physics and material properties
         floorColor: [["pbr", { color: 0xffffff }], { mass: 0, fric: 0.9, res: 0.1 }],
         boxColor: [["pbr", { color: 0xff0000 }], { mass: 1, fric: 0.9, res: 0.1 }],

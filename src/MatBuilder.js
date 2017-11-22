@@ -31,7 +31,7 @@ module.exports = function (name, materialArgs) {//todo verify input
         var cubeCam;
         if (materialArgs[0][1].envMap == true) {
             //debugger
-            cubeCam = new THREE.CubeCamera(1, 100000, 32);
+            cubeCam = new THREE.CubeCamera(0.5, 100000, 32);
             materialArgs[0][1].envMap = cubeCam.renderTarget;
         }else(materialArgs[0][1].envMap = null)
         var renderMat = new THREE.MeshStandardMaterial(TextureFilter(materialArgs[0][1]));
@@ -55,7 +55,7 @@ module.exports = function (name, materialArgs) {//todo verify input
 }
 
 var TextureLib = {}//todo cache textures with matching names
-var mapTypes = ["map", "normalMap", "aoMap", "roughnessMap", "displacementMap"]
+var mapTypes = ["map", "normalMap", "aoMap", "roughnessMap", "displacementMap","metalnessMap"]
 function TextureFilter(input) {
     for (j in mapTypes) {
         var i = mapTypes[j]
