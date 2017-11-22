@@ -24,7 +24,8 @@ module.exports = function Fly(level, camera, playerData) {
         rotX: 0,
         rotY: 0,
         ctrlVector: new THREE.Vector3(),
-        cameraIsThrid: false
+        cameraIsThrid: false,
+        restingOn: {}
     }
     var speed = { mouseSensitivity: 0.0025, moveSpeed: 3 }
 
@@ -77,11 +78,13 @@ module.exports = function Fly(level, camera, playerData) {
     var contactNormal = new CANNON.Vec3();
     var upAxis = new CANNON.Vec3(0, 1, 0);
     pawn.phys.addEventListener("collide", function (e) {
+        console.log(e.body.id, e, e.target.id);
         var contact = e.contact;
-
-        if (contact.bi.id == pawn.phys.id)
+        movementData.restingOn = e.body.id;
+        if (contact.bi.id == pawn.phys.id) {
+            //            movementData.restingOn = contact.ai.id;
             contact.ni.negate(contactNormal);
-        else
+        } else
             contactNormal.copy(contact.ni);
 
         if (contactNormal.dot(upAxis) > 0.5)
@@ -131,13 +134,14 @@ module.exports = function Fly(level, camera, playerData) {
         console.log("DOM CLICK", e.button)
         if (e.button == 0) {
             //pick up object
-            raycaster.setFromCamera(new THREE.Vector2(0,0),camera)
+            raycaster.setFromCamera(new THREE.Vector2(0, 0), camera)
             var intersects = raycaster.intersectObjects(level.renderWorld.children);
 
-            intersects[0].object.phys.velocity.y += 5;
+            if (movementData.restingOn != intersects[0].object.phys.id)
+                intersects[0].object.phys.velocity.y += 5;
 
-            console.log({raycaster:raycaster,intersects:intersects})
-            
+            console.log({ raycaster: raycaster, intersects: intersects[0].object.phys.id })
+
         }
 
         if (e.button == 2) {
@@ -158,7 +162,7 @@ module.exports = function Fly(level, camera, playerData) {
 
     document.body.addEventListener("click", MouseCapture);
     domElement.addEventListener("mousemove", function (e) {
-        console.log(e.movementX);
+        //console.log(e.movementX);
         if (document.pointerLockElement === domElement) {
             movementData.rotY -= e.movementX * speed.mouseSensitivity;
             movementData.rotX -= e.movementY * speed.mouseSensitivity;
