@@ -38,6 +38,7 @@ module.exports = function (name, objectArgs) {
                 part.receiveShadow = true;
                 part.position.x = dis[0];part.position.y = dis[1];part.position.z = dis[2];
                 obj.add(part);
+                part.phys = obj.phys;
                 obj.phys.addShape(geo.physics, new CANNON.Vec3(dis[0], dis[1], dis[2]))
             }
 

@@ -135,11 +135,11 @@ module.exports = function Fly(level, camera, playerData) {
         if (e.button == 0) {
             //pick up object
             raycaster.setFromCamera(new THREE.Vector2(0, 0), camera)
-            var intersects = raycaster.intersectObjects(level.renderWorld.children);
+            var intersects = raycaster.intersectObjects(level.renderWorld.children, true);
 
-            if (movementData.restingOn != intersects[0].object.phys.id)
+            if (movementData.restingOn != intersects[0].object.phys.id && intersects[0].object.phys.material.mass != 0) {
                 intersects[0].object.phys.velocity.y += 5;
-
+            }
             console.log({ raycaster: raycaster, intersects: intersects[0].object.phys.id })
 
         }

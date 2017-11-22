@@ -28,29 +28,12 @@ var level = {
             castShadow: false,
             transparent: true, opacity: opacity
         }], { mass: 10, fric: 0.9, res: 0.1 }],
-        wood0: [["pbr", {
-            map: "assets/Panel_Mahogany/Panel_Mahogany_Alb.jpg",
-            normalMap: "assets/Panel_Mahogany/Panel_Mahogany_Nor.jpg",
-            aoMap: "assets/Panel_Mahogany/Panel_Mahogany_AO.jpg",
-            roughnessMap: "assets/Panel_Mahogany/Panel_Mahogany_Rou.jpg",
-            metalness: 0.0,
-            castShadow: true,
-        }], { mass: 10, fric: 0.9, res: 0.1 }],
-        wood1: [["pbr", {
-            map: "assets/Panel_Mahogany/Panel_Mahogany_Alb.jpg",
-            normalMap: "assets/Panel_Mahogany/Panel_Mahogany_Nor.jpg",
-            aoMap: "assets/Panel_Mahogany/Panel_Mahogany_AO.jpg",
-            roughnessMap: "assets/Panel_Mahogany/Panel_Mahogany_Rou.jpg",
-            metalness: 0.5,
-            castShadow: true,
-            envMap: true
-        }], { mass: 10, fric: 0.9, res: 0.1 }],
-        wood2: [["pbr", {
-            map: "assets/Panel_Mahogany/Panel_Mahogany_Alb.jpg",
-            normalMap: "assets/Panel_Mahogany/Panel_Mahogany_Nor.jpg",
-            aoMap: "assets/Panel_Mahogany/Panel_Mahogany_AO.jpg",
-            roughnessMap: "assets/Panel_Mahogany/Panel_Mahogany_Rou.jpg",
-            metalness: 1,
+
+        rust: [["pbr", {
+            map: "assets/rustyIron/basecolor.png",
+            normalMap: "assets/rustyIron/normal.png",
+            roughnessMap: "assets/rustyIron/roughness.png",
+            metalnessMap:"assets/rustyIron/metallic.png",
             castShadow: true,
             envMap: true
         }], { mass: 10, fric: 0.9, res: 0.1 }],
@@ -81,10 +64,9 @@ var level = {
             ["cubeGeo", "wallColor", [-1, 1, 0]],
             ["cubeGeo", "wallColor", [-1, 0, 0]],
         ], "floorColor", [0, 1, 5], [0, 0, 0]],
+        floor: ["floorGeo", "floorColor", [0, 0, 0], [0, 0, 0]],
 
-        crate0: ["cubeGeo", "wood0", [3, 1, 0], [0, 0, 0]],
-        crate1: ["cubeGeo", "wood1", [4, 1, 0], [0, 0, 0]],
-        crate2: ["cubeGeo", "wood2", [5, 1, 0], [0, 0, 0]],
+        rustBall: ["ball", "rust", [7, 2, 7], [0, 0, 0]],
         box1: ["cubeGeo", "blue", [0, 1, 0], [0, 0, 0]],
         box2: ["cubeGeo", "red", [.6, 2, 0], [0, 0, 0]],
         box3: ["cubeGeo", "green", [0, 3, 0], [0, 0, 0]],
@@ -106,29 +88,26 @@ var level = {
         postLoad: function () {
         },
         onFrame: function (t) {
-            this.mats.wood1.render.envCamera.position.copy(this.objs.crate1.position)
-            this.mats.wood2.render.envCamera.position.copy(this.objs.crate2.position)
-            this.mats.wood1.render.envCamera.update( this.interfaces.renderer, this.renderWorld );
-            this.mats.wood2.render.envCamera.update( this.interfaces.renderer, this.renderWorld );
-
+            this.mats.rust.render.envCamera.position.copy(this.objs.rustBall.position)
+            this.mats.rust.render.envCamera.update( this.interfaces.renderer, this.renderWorld );
 
             //console.log("Called onFrame",this)
         }
     }
 }
 
-platform = [[], "wallColor", [-5, 0, -5], [0, 0, 0]]
-platform2 = [[], "wallColor", [1, 0, -5], [0, 0, 0]]
-platform2[0] = platform[0]
-var n = 25
-for (var i = 0; i < (n * n); i++) {
-    x = (i / n) | 0
-    z = (i % n)
-    var element = ["cubeGeo", "wallColor", [x - ((n / 2) | 0), 0, z - ((n / 2) | 0)]]
-    platform[0].push(element);
-}
+// platform = [[], "wallColor", [-5, 0, -5], [0, 0, 0]]
+// platform2 = [[], "wallColor", [1, 0, -5], [0, 0, 0]]
+// platform2[0] = platform[0]
+// var n = 25
+// for (var i = 0; i < (n * n); i++) {
+//     x = (i / n) | 0
+//     z = (i % n)
+//     var element = ["cubeGeo", "wallColor", [x - ((n / 2) | 0), 0, z - ((n / 2) | 0)]]
+//     platform[0].push(element);
+// }
 
-level.objs.platform = platform;
-//level.objs.platform2= platform2;
+// level.objs.platform = platform;
+// //level.objs.platform2= platform2;
 
 GameEngine.Game(level)
