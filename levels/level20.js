@@ -4,8 +4,10 @@
 var s = 1;
 
 var opacity = 0.5
+
+var platSize = 25
 var level = {
-    name: "The Padded Platform!",
+    name: "Shiny Ball!",
     world: {
         grav: [0, -10, 0],
         background: 0x0,
@@ -14,8 +16,8 @@ var level = {
     geos: {//cube and sphere gemoties are supports for MVP
         cubeGeo: ["cube", s, s, s],
         ball: ["sphere", 1, 64, 32],
-        floorGeo: ["cube", 100, 1, 100],
-        wallGeo: ["cube", 3, 1, 100],
+        floorGeo: ["cube", platSize, 1, platSize],
+        wallGeo: ["cube", 1, 3, platSize],
         cylinder: ["cylinder", .5, 0.25, 1, 32],
     },
     mats: {//[COLOR,WEIGHT] todo, more complex physics and material properties
@@ -34,7 +36,7 @@ var level = {
             map: "assets/rustyIron/basecolor.png",
             normalMap: "assets/rustyIron/normal.png",
             roughnessMap: "assets/rustyIron/roughness.png",
-            metalnessMap:"assets/rustyIron/metallic.png",
+            metalnessMap: "assets/rustyIron/metallic.png",
             // metalness:100000,
             castShadow: true,
             envMap: true
@@ -67,11 +69,12 @@ var level = {
             ["cubeGeo", "wallColor", [-1, 0, 0]],
         ], "floorColor", [0, 1, 5], [0, 0, 0]],
         floor: ["floorGeo", "floorColor", [0, 0, 0], [0, 0, 0]],
+        wall0: ["wallGeo", "floorColor", [platSize / 2, 1.5, 0], [0, 0, 0]],
+        wall1: ["wallGeo", "floorColor", [-platSize / 2, 1.5, 0], [0, 0, 0]],
+        wall2: ["wallGeo", "floorColor", [0, 1.5, platSize / 2], [0, 1 / 4, 0]],
+        wall3: ["wallGeo", "floorColor", [0, 1.5, -platSize / 2], [0, 1 / 4, 0]],
 
-        rustBall: ["ball", "rust", [7, 2, 7], [0, 0, 0]],
-        box1: ["cubeGeo", "blue", [0, 1, 0], [0, 0, 0]],
-        box2: ["cubeGeo", "red", [.6, 2, 0], [0, 0, 0]],
-        box3: ["cubeGeo", "green", [0, 3, 0], [0, 0, 0]],
+        rustBall: ["ball", "rust", [2, 2, -5], [0, 0, 0]],
 
     },
     lights: {
@@ -83,7 +86,7 @@ var level = {
         point3: ["point", { color: 0xFFFFFF, pos: [-10, 5, 10], brightness: 0.25 }],
     },
     player: {
-        starting: { pos: [2, 2, 2], lookAt: [0, 0, 0] },
+        starting: { pos: [2, 2, 2], lookAt: [7, 2, 7] },
         type: "FPS"
     },
     triggers: {
@@ -91,11 +94,26 @@ var level = {
         },
         onFrame: function (t) {
             this.mats.rust.render.envCamera.position.copy(this.objs.rustBall.position)
-            this.mats.rust.render.envCamera.update( this.interfaces.renderer, this.renderWorld );
+            this.mats.rust.render.envCamera.update(this.interfaces.renderer, this.renderWorld);
 
             //console.log("Called onFrame",this)
         }
     }
+}
+
+/**
+ *         box1: ["cubeGeo", "blue", [0, 1, 0], [0, 0, 0]],
+box2: ["cubeGeo", "red", [.6, 2, 0], [0, 0, 0]],
+box3: ["cubeGeo", "green", [0, 3, 0], [0, 0, 0]],
+ */
+var n = 10;
+var space = 4;
+for (var i = 0; i < (n*n); i++) {
+    var x = (((i / n) | 0) - 1) * space
+    var z = ((i % n) - 1) * space
+    var mats = ["red","green","blue"]
+    level.objs["box" + i] = ["cubeGeo", mats[(i + ((i/3)|0))%3], [x, 1, z], [0, 0, 0]]
+    console.log(level.objs["box" + i])
 }
 
 // platform = [[], "wallColor", [-5, 0, -5], [0, 0, 0]]
