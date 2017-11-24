@@ -12,10 +12,24 @@ var xAxis = new THREE.Vector3(1, 0, 0)
 var yAxis = new THREE.Vector3(0, 1, 0)
 
 
-
-
+//Helper for checking what the pawn is standing on
+var checkStandingCreator = function (scene) {
+    var StandingRaycaster = new THREE.Raycaster();
+    var down = new THREE.Vector3(0, -1, 0);
+    return function checkStanding(pawn) {
+        StandingRaycaster.set(pawn.position, down);
+        var interescts = StandingRaycaster.intersectObjects(scene.children)
+        try {
+            return interescts[0];
+        }
+        catch (e) {
+            return null;
+        }
+    }
+}
 //require("Player.js")(level,camera);
 module.exports = function Fly(level, camera, playerData) {
+    var checkStanding = checkStandingCreator(level.renderWorld);
     level.GeoBuilder("PlayerGeo", ["sphere", 0.50, 32, 16]);
     level.GeoBuilder("PlayerGeo2", ["cylinder", 0.50, 0.50, 1, 16]);
     // debugger;
@@ -29,7 +43,7 @@ module.exports = function Fly(level, camera, playerData) {
         ctrlVector: new THREE.Vector3(),
         cameraIsThrid: false,
         restingOn: {},
-        reach:100
+        reach: 100
     }
     var speed = { mouseSensitivity: 0.0025, moveSpeed: 3 }
 
@@ -55,9 +69,19 @@ module.exports = function Fly(level, camera, playerData) {
         move.normalize();
         move.multiplyScalar(speed.moveSpeed);
         move.applyAxisAngle(yAxis, movementData.rotY)
-        var phyVect = vThree2Cannon(move)
-        pawn.phys.velocity.x = phyVect.x
-        pawn.phys.velocity.z = phyVect.z
+        //if (movementData.canJump)
+        {
+            //find current speed
+            var v = pawn.phys.velocity;
+            //find differnce of current speed and controls
+            var dv = {
+                x: move.x - v.x,
+                z: move.z - v.z
+            }
+            //apply difference
+            pawn.phys.velocity.x += dv.x*0.1
+            pawn.phys.velocity.z += dv.z*0.1
+        }
         if (movementData.canJump && keys[" "]) {
             movementData.canJump = false;
             pawn.phys.velocity.y = 5;
@@ -73,6 +97,10 @@ module.exports = function Fly(level, camera, playerData) {
         if (movementData.cameraIsThrid) {
             camera.position.x = camera.position.y = camera.position.z = 1;
             camera.lookAt(vCannon2Three(pawn.phys.position))
+        }
+
+        if (keys.f == 1) {
+            console.log(checkStanding(pawn));
         }
 
         //move hinge object
@@ -133,7 +161,7 @@ module.exports = function Fly(level, camera, playerData) {
 
     var raycaster = new THREE.Raycaster();
     raycaster.far = movementData.reach;
-    
+
     var PushVector = new THREE.Vector3();
 
     domElement.addEventListener("mousedown", function (e) {
@@ -151,7 +179,7 @@ module.exports = function Fly(level, camera, playerData) {
                     PushVector.normalize().multiplyScalar(10);
                 }
                 else {
-                PushVector.normalize().multiplyScalar(-10);
+                    PushVector.normalize().multiplyScalar(-10);
                 }
 
                 intersects[0].object.phys.velocity.x = PushVector.x;
@@ -192,17 +220,17 @@ module.exports = function Fly(level, camera, playerData) {
             }
         }
     })
-    var keys = { w: 0, a: 0, s: 0, d: 0, c: 0 }
-    keys[" "] = 0;
-    domElement.addEventListener("keydown", function (e) {
+    var keys = { w: 0, a: 0, s: 0, d: 0, c: 0, " ": 0, f: 0 }
+    document.body.addEventListener("keydown", function (e) {
         if (keys[e.key] != null) {
             keys[e.key] = 1;
         }
         if (e.key == " " && keys[" "] == -1) {
             keys[" "] = 1;
         }
+        console.log(e)
     })
-    domElement.addEventListener("keyup", function (e) {
+    document.body.addEventListener("keyup", function (e) {
         if (keys[e.key] != null) {
             keys[e.key] = 0;
         }

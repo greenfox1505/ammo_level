@@ -29,6 +29,7 @@ function loadLevelScript(LevelURL) {
 if (Params["level"]) {
     loadLevelScript(Params["level"])
 } else {
+    window.location.href = window.location.href + "?level=levels/level1.js"
     loadLevelScript("levels/level11.js")
 }
 
