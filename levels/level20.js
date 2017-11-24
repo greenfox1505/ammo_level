@@ -109,8 +109,8 @@ box3: ["cubeGeo", "green", [0, 3, 0], [0, 0, 0]],
 var n = 10;
 var space = 4;
 for (var i = 0; i < (n*n); i++) {
-    var x = (((i / n) | 0) - 1) * space
-    var z = ((i % n) - 1) * space
+    var x = (((i / n) | 0) - ((n/2)|0)) * space
+    var z = ((i % n) - ((n/2)|0)) * space
     var mats = ["red","green","blue"]
     level.objs["box" + i] = ["cubeGeo", mats[(i + ((i/3)|0))%3], [x, 1, z], [0, 0, 0]]
     console.log(level.objs["box" + i])
