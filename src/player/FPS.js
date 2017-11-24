@@ -11,6 +11,9 @@ function vThree2Cannon(threeVector) {
 var xAxis = new THREE.Vector3(1, 0, 0)
 var yAxis = new THREE.Vector3(0, 1, 0)
 
+
+
+
 //require("Player.js")(level,camera);
 module.exports = function Fly(level, camera, playerData) {
     level.GeoBuilder("PlayerGeo", ["sphere", 0.50, 32, 16]);
@@ -130,7 +133,7 @@ module.exports = function Fly(level, camera, playerData) {
 
     var raycaster = new THREE.Raycaster();
     raycaster.far = movementData.reach;
-
+    
     var PushVector = new THREE.Vector3();
 
     domElement.addEventListener("mousedown", function (e) {
@@ -191,7 +194,7 @@ module.exports = function Fly(level, camera, playerData) {
     })
     var keys = { w: 0, a: 0, s: 0, d: 0, c: 0 }
     keys[" "] = 0;
-    document.body.addEventListener("keydown", function (e) {
+    domElement.addEventListener("keydown", function (e) {
         if (keys[e.key] != null) {
             keys[e.key] = 1;
         }
@@ -199,7 +202,7 @@ module.exports = function Fly(level, camera, playerData) {
             keys[" "] = 1;
         }
     })
-    document.body.addEventListener("keyup", function (e) {
+    domElement.addEventListener("keyup", function (e) {
         if (keys[e.key] != null) {
             keys[e.key] = 0;
         }

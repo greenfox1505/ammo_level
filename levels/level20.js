@@ -1,5 +1,3 @@
-
-
 //a pure-data level. to be processed later!
 var s = 1;
 
