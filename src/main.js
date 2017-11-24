@@ -30,7 +30,7 @@ if (Params["level"]) {
     loadLevelScript(Params["level"])
 } else {
     window.location.href = window.location.href + "?level=levels/level1.js"
-    loadLevelScript("levels/level11.js")
+    //loadLevelScript("levels/level11.js")
 }
 
 
@@ -69,9 +69,9 @@ module.exports.Game = function (rawLevel) {
     var animate = function () {
         if(debugBreak == 1){debugBreak=-1; debugger}
         stats.begin();
+        level.physicsTick(1 / 60);
         if (player) player.onFrame()
         if (level.onFrame) level.onFrame();
-        level.physicsTick(1 / 60);
 
         if (level.onFrame) {
             level.onFrame();

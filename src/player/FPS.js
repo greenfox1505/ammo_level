@@ -27,6 +27,55 @@ var checkStandingCreator = function (scene) {
         }
     }
 }
+
+var contactNormal = new CANNON.Vec3();
+var upAxis = new CANNON.Vec3(0, 1, 0);
+function PlayerTouchs(phyWorld, body) {
+    //console.log(body)
+    var contacts = [];
+    var touchList = [];
+    var resting = false;
+    for (var i in phyWorld.contacts) {
+        var c = phyWorld.contacts[i];
+        if (c.bi.id == body.id) {
+            touchList.push(c.bj.id)
+            contacts.push(c);
+        }
+        else if (c.bj.id == body.id) {
+            touchList.push(c.bi.id)
+            contacts.push(c);
+        }
+    }
+    for (var i in contacts) {
+        var contact = contacts[i];
+        if (contact.bi.id == body.id) {
+            //            movementData.restingOn = contact.ai.id;
+            contact.ni.negate(contactNormal);
+        } else
+            contactNormal.copy(contact.ni);
+
+        if (contactNormal.dot(upAxis) > 0.5)
+            resting = true;
+
+    }
+    function isTouching(touchingBody) {
+        for (var i in contacts) {
+            if (contacts[i].bi.id == touchingBody.id || contacts[i].bj.id == touchingBody.id) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    return {
+        contacts: contacts,
+        resting: resting,
+        isTouching: isTouching,
+        touchList: touchList
+    }
+
+}
+
 //require("Player.js")(level,camera);
 module.exports = function Fly(level, camera, playerData) {
     var checkStanding = checkStandingCreator(level.renderWorld);
@@ -42,8 +91,8 @@ module.exports = function Fly(level, camera, playerData) {
         rotY: 0,
         ctrlVector: new THREE.Vector3(),
         cameraIsThrid: false,
-        restingOn: {},
-        reach: 100
+        reach: 100,
+        touches: {}
     }
     var speed = { mouseSensitivity: 0.0025, moveSpeed: 3 }
 
@@ -58,6 +107,7 @@ module.exports = function Fly(level, camera, playerData) {
 
 
     playerData.onFrame = function (deltaTime) {
+        movementData.touches = PlayerTouchs(level.phyWorld, pawn.phys)
         //instead of applying this to a camera, we're goiing to apply this as a force to a player pawn
 
         // pawn.phys.quaternion.x = pawn.phys.quaternion.y = pawn.phys.quaternion.z = 0; pawn.phys.quaternion.w = 1;
@@ -69,23 +119,14 @@ module.exports = function Fly(level, camera, playerData) {
         move.normalize();
         move.multiplyScalar(speed.moveSpeed);
         move.applyAxisAngle(yAxis, movementData.rotY)
-        //if (movementData.canJump)
-        {
-            //find current speed
-            var v = pawn.phys.velocity;
-            //find differnce of current speed and controls
-            var dv = {
-                x: move.x - v.x,
-                z: move.z - v.z
-            }
-            //apply difference
-            pawn.phys.velocity.x += dv.x*0.1
-            pawn.phys.velocity.z += dv.z*0.1
-        }
-        if (movementData.canJump && keys[" "]) {
-            movementData.canJump = false;
+
+        pawn.phys.velocity.x = move.x
+        pawn.phys.velocity.z = move.z
+
+        if (movementData.touches.resting && keys[" "]) {
             pawn.phys.velocity.y = 5;
         }
+
 
         camera.position.x = pawn.phys.position.x
         camera.position.y = pawn.phys.position.y
@@ -94,6 +135,8 @@ module.exports = function Fly(level, camera, playerData) {
         camera.rotation.x = movementData.rotX
         camera.rotation.y = movementData.rotY
         camera.rotation.z = 0;
+
+
         if (movementData.cameraIsThrid) {
             camera.position.x = camera.position.y = camera.position.z = 1;
             camera.lookAt(vCannon2Three(pawn.phys.position))
@@ -106,25 +149,6 @@ module.exports = function Fly(level, camera, playerData) {
         //move hinge object
 
     }
-
-    var contactNormal = new CANNON.Vec3();
-    var upAxis = new CANNON.Vec3(0, 1, 0);
-    pawn.phys.addEventListener("collide", function (e) {
-        console.log(e.body.id, e, e.target.id);
-        var contact = e.contact;
-        movementData.restingOn = e.body.id;
-        if (contact.bi.id == pawn.phys.id) {
-            //            movementData.restingOn = contact.ai.id;
-            contact.ni.negate(contactNormal);
-        } else
-            contactNormal.copy(contact.ni);
-
-        if (contactNormal.dot(upAxis) > 0.5)
-            movementData.canJump = true;
-        else movementData.canJump = false;
-    });
-
-
 
     //place instructions for controls
     var controlFrame = document.createElement("div");
@@ -165,6 +189,7 @@ module.exports = function Fly(level, camera, playerData) {
     var PushVector = new THREE.Vector3();
 
     domElement.addEventListener("mousedown", function (e) {
+        movementData.touches = PlayerTouchs(level.phyWorld, pawn.phys);
         console.log("DOM CLICK", e.button)
         if (e.button == 0 || e.button == 2) {
             raycaster.setFromCamera(new THREE.Vector2(0, 0), camera)
@@ -172,7 +197,7 @@ module.exports = function Fly(level, camera, playerData) {
             // debugger
 
             console.log(intersects[0].point)
-            if (movementData.restingOn != intersects[0].object.phys.id && intersects[0].object.phys.material.mass != 0) {
+            if ((!movementData.touches.isTouching(intersects[0].object.phys)) && intersects[0].object.phys.material.mass != 0) {
                 PushVector.copy(intersects[0].point);
                 PushVector.sub(camera.position);
                 if (e.button == 0) {
@@ -228,7 +253,7 @@ module.exports = function Fly(level, camera, playerData) {
         if (e.key == " " && keys[" "] == -1) {
             keys[" "] = 1;
         }
-        console.log(e)
+        // console.log(e)
     })
     document.body.addEventListener("keyup", function (e) {
         if (keys[e.key] != null) {

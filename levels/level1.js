@@ -84,7 +84,7 @@ var level = {
         point3: ["point", { color: 0xFFFFFF, pos: [-10, 5, 10], brightness: 0.25 }],
     },
     player: {
-        starting: { pos: [2, 2, 2], lookAt: [7, 2, 7] },
+        starting: { pos: [2, 5, 2], lookAt: [7, 2, 7] },
         type: "FPS"
     },
     triggers: {
