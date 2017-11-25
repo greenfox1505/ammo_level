@@ -90,9 +90,10 @@ module.exports.Game = function (rawLevel) {
 }
 
 
+var breakKey = "b"
 var debugBreak = 0;
 document.body.addEventListener("keydown", function (e) {
-    if (debugBreak == 0 && e.key == "p") {
+    if (debugBreak == 0 && e.key == breakKey) {
         debugBreak = 1;
     }
 })
