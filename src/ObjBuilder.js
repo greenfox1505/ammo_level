@@ -32,14 +32,19 @@ module.exports = function (name, objectArgs) {
                 var geo = this.geos[objectArgs[0][i][0]];
                 var mat = this.mats[objectArgs[0][i][1]];
                 var dis = objectArgs[0][i][2];
+                var rot = objectArgs[0][i][3]?objectArgs[0][i][3]:[0,0,0];
 
+                
                 var part = new THREE.Mesh(geo.render, mat.render)
                 part.castShadow = mat.render.castShadow;
                 part.receiveShadow = true;
-                part.position.x = dis[0];part.position.y = dis[1];part.position.z = dis[2];
+                part.position.x = dis[0]; part.position.y = dis[1]; part.position.z = dis[2];
                 obj.add(part);
                 part.phys = obj.phys;
-                obj.phys.addShape(geo.physics, new CANNON.Vec3(dis[0], dis[1], dis[2]))
+                var quat = new CANNON.Quaternion()
+                quat.setFromEuler(rot[0] * tau, rot[1] * tau, rot[2] * tau, "XYZ")
+                part.quaternion.copy(quat)
+                obj.phys.addShape(geo.physics, new CANNON.Vec3(dis[0], dis[1], dis[2]),quat)
             }
 
             obj.castShadow = true;

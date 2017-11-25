@@ -83,7 +83,7 @@ module.exports = function Fly(level, camera, playerData) {
     level.GeoBuilder("PlayerGeo2", ["cylinder", 0.50, 0.50, 1, 16]);
     // debugger;
     level.MatBuilder("PlayerMat", [["basic", { color: 0xffffff }], { mass: 0.01, fric: 0, res: 0 }]);
-    var pawn = playerData.pawn = level.ObjBuilder("PLAYER", [[["PlayerGeo", "PlayerMat", [0, 0, 0]], ["PlayerGeo2", "PlayerMat", [0, -0.5, 0]], ["PlayerGeo", "PlayerMat", [0, -1, 0]]], "PlayerMat", playerData.starting.pos, [0, 0, 0]])
+    var pawn = playerData.pawn = level.ObjBuilder("PLAYER", [[["PlayerGeo", "PlayerMat", [0, 0, 0], [0, 0, 0]], ["PlayerGeo2", "PlayerMat", [0, -0.5, 0], [0, 0, 0]], ["PlayerGeo", "PlayerMat", [0, -1, 0], [0, 0, 0]]], "PlayerMat", playerData.starting.pos, [0, 0, 0]])
     pawn.visible = false;
     pawn.phys.angularDamping = 1;
     var movementData = {
@@ -92,9 +92,10 @@ module.exports = function Fly(level, camera, playerData) {
         ctrlVector: new THREE.Vector3(),
         cameraIsThrid: false,
         reach: 100,
-        touches: {}
+        touches: {},
+        mouseSensitivity: 0.0025,
+        moveSpeed: 4, sprintMult: 2
     }
-    var speed = { mouseSensitivity: 0.0025, moveSpeed: 3 }
 
     var domElement = level.interfaces.renderer.domElement;
 
@@ -117,7 +118,8 @@ module.exports = function Fly(level, camera, playerData) {
         if (keys.a) move.x -= 1;
         if (keys.d) move.x += 1;
         move.normalize();
-        move.multiplyScalar(speed.moveSpeed);
+        move.multiplyScalar(movementData.moveSpeed);
+        if (keys.shift) move.multiplyScalar(movementData.sprintMult);
         move.applyAxisAngle(yAxis, movementData.rotY)
 
         pawn.phys.velocity.x = move.x
@@ -143,7 +145,8 @@ module.exports = function Fly(level, camera, playerData) {
         }
 
         if (keys.f == 1) {
-            console.log(checkStanding(pawn));
+            applyForceToObject(objectPointedAt(), { x: 0, y: 0, z: 0 })
+
         }
 
         //move hinge object
@@ -153,7 +156,6 @@ module.exports = function Fly(level, camera, playerData) {
     //place instructions for controls
     var controlFrame = document.createElement("div");
     controlFrame.className = "controlFrame"
-    console.log(controlFrame)
     document.body.appendChild(controlFrame)
     controlFrame.innerHTML = "<h1>Click To Control</h1>"
 
@@ -187,18 +189,25 @@ module.exports = function Fly(level, camera, playerData) {
     raycaster.far = movementData.reach;
 
     var PushVector = new THREE.Vector3();
+    function objectPointedAt() {
+        raycaster.setFromCamera(new THREE.Vector2(0, 0), camera)
+        var intersects = raycaster.intersectObjects(level.renderWorld.children, true);
+        return intersects[0]
+    }
+    function applyForceToObject(target, force) {
+        target.object.phys.velocity.x = force.x;
+        target.object.phys.velocity.y = force.y;
+        target.object.phys.velocity.z = force.z;
+    }
+
 
     domElement.addEventListener("mousedown", function (e) {
         movementData.touches = PlayerTouchs(level.phyWorld, pawn.phys);
         console.log("DOM CLICK", e.button)
         if (e.button == 0 || e.button == 2) {
-            raycaster.setFromCamera(new THREE.Vector2(0, 0), camera)
-            var intersects = raycaster.intersectObjects(level.renderWorld.children, true);
-            // debugger
-
-            console.log(intersects[0].point)
-            if ((!movementData.touches.isTouching(intersects[0].object.phys)) && intersects[0].object.phys.material.mass != 0) {
-                PushVector.copy(intersects[0].point);
+            var target = objectPointedAt()
+            if ((!movementData.touches.isTouching(target.object.phys)) && target.object.phys.material.mass != 0) {
+                PushVector.copy(target.point);
                 PushVector.sub(camera.position);
                 if (e.button == 0) {
                     PushVector.normalize().multiplyScalar(10);
@@ -206,12 +215,9 @@ module.exports = function Fly(level, camera, playerData) {
                 else {
                     PushVector.normalize().multiplyScalar(-10);
                 }
-
-                intersects[0].object.phys.velocity.x = PushVector.x;
-                intersects[0].object.phys.velocity.y = PushVector.y;
-                intersects[0].object.phys.velocity.z = PushVector.z;
+                applyForceToObject(target, PushVector)
             }
-            console.log({ raycaster: raycaster, intersects: intersects[0].object.phys.id })
+            console.log({ raycaster: raycaster, intersects: target.object.phys.id })
 
         }
 
@@ -235,8 +241,8 @@ module.exports = function Fly(level, camera, playerData) {
     domElement.addEventListener("mousemove", function (e) {
         //console.log(e.movementX);
         if (document.pointerLockElement === domElement) {
-            movementData.rotY -= e.movementX * speed.mouseSensitivity;
-            movementData.rotX -= e.movementY * speed.mouseSensitivity;
+            movementData.rotY -= e.movementX * movementData.mouseSensitivity;
+            movementData.rotX -= e.movementY * movementData.mouseSensitivity;
             if (movementData.rotX > (Math.PI / 2)) {
                 movementData.rotX = Math.PI / 2
             }
@@ -245,21 +251,31 @@ module.exports = function Fly(level, camera, playerData) {
             }
         }
     })
-    var keys = { w: 0, a: 0, s: 0, d: 0, c: 0, " ": 0, f: 0 }
+    var keyCodes = {
+        87: "w",
+        65: "a",
+        83: "s",
+        68: "d",
+        32: " ",
+        67: "c",
+        70: "f",
+        16: "shift"
+    }
+    var keys = {}//{ w: 0, a: 0, s: 0, d: 0, c: 0, " ": 0, f: 0 }
     document.body.addEventListener("keydown", function (e) {
-        if (keys[e.key] != null) {
-            keys[e.key] = 1;
-        }
-        if (e.key == " " && keys[" "] == -1) {
+        var thisKey = keyCodes[e.keyCode]
+        console.log(thisKey, e.keyCode)
+
+        keys[thisKey] = 1;
+        if (thisKey == " " && keys[" "] == -1) {
             keys[" "] = 1;
         }
-        // console.log(e)
+        console.log(keys)
     })
     document.body.addEventListener("keyup", function (e) {
-        if (keys[e.key] != null) {
-            keys[e.key] = 0;
-        }
-        if (e.key == " ") {
+        var thisKey = keyCodes[e.keyCode]
+        keys[thisKey] = 0;
+        if (thisKey == " ") {
             keys[" "] = 0;
         }
     })

@@ -66,10 +66,17 @@ module.exports.Game = function (rawLevel) {
 
         }
     }
+    var oldTime = Date.now();
     var animate = function () {
+        newTime = Date.now()
+        var FPS = 1000/(newTime - oldTime);
+        if(FPS < 30){FPS = 30};
+        oldTime = newTime;
         if(debugBreak == 1){debugBreak=-1; debugger}
         stats.begin();
-        level.physicsTick(1 / 60);
+
+        level.physicsTick(1 / FPS);
+
         if (player) player.onFrame()
         if (level.onFrame) level.onFrame();
 

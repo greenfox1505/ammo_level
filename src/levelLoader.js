@@ -45,7 +45,7 @@ module.exports = function (interfaces, rawLevel) {
 
     level.physicsTick = function (time) {
         //copy physics data to world data
-        level.phyWorld.step(1 / 60);
+        level.phyWorld.step(time);
         for (var i in level.objs) {
             var obj = level.objs[i];
             obj.position.x = obj.phys.position.x
